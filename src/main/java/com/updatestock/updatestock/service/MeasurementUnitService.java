@@ -27,9 +27,9 @@ public class MeasurementUnitService {
         return this.measurementUnitRepository.save(measurementUnit);
     }
 
-    public void delete(MeasurementUnit mu) throws NotFoundException {
-        MeasurementUnit measurementUnit = this.measurementUnitRepository.findById(mu.getId())
-                          .orElseThrow(() -> new NotFoundException("Unidade de medida não encontrada com o id :: " + mu.getId()));
+    public void delete(Integer id) throws NotFoundException {
+        MeasurementUnit measurementUnit = this.measurementUnitRepository.findById(id)
+                          .orElseThrow(() -> new NotFoundException("Unidade de medida não encontrada com o id :: " + id));
         this.measurementUnitRepository.delete(measurementUnit);
     }
 
@@ -38,7 +38,7 @@ public class MeasurementUnitService {
                    .orElseThrow(() -> new NotFoundException("Unidade de medida não encontrada com o id :: " + id));
     }
 
-    public Page<MeasurementUnit> findAll(int page, int size) throws NotFoundException {
+    public Page<MeasurementUnit> findAll(int page, int size) {
         return this.measurementUnitRepository.findAll(PageRequest.of(page, size));
     }
 

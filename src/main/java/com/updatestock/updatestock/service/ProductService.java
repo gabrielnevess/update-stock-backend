@@ -27,7 +27,14 @@ public class ProductService {
     @Autowired
     private StateService stateService;
 
-    public Product save(Product p) {
+    public Product save(Product p) throws NotFoundException {
+        Brand brand = this.brandService.findById(p.getBrandId());
+        MeasurementUnit measurementUnit = this.measurementUnitService.findById(p.getMeasurementUnitId());
+        State state = this.stateService.findById(p.getStateId());
+
+        p.setBrandId(brand.getId());
+        p.setMeasurementUnitId(measurementUnit.getId());
+        p.setStateId(state.getId());
         return this.productRepository.save(p);
     }
 
@@ -37,7 +44,7 @@ public class ProductService {
         
         Brand brand = this.brandService.findById(p.getBrandId());
         MeasurementUnit measurementUnit = this.measurementUnitService.findById(p.getMeasurementUnitId());
-        State state = this.stateService.findById(product.getStateId());
+        State state = this.stateService.findById(p.getStateId());
 
         product.setBrandId(brand.getId());
         product.setMeasurementUnitId(measurementUnit.getId());
@@ -48,9 +55,9 @@ public class ProductService {
         return this.productRepository.save(product);
     }
 
-    public void delete(Product p) throws NotFoundException {
-        Product product = this.productRepository.findById(p.getId())
-                          .orElseThrow(() -> new NotFoundException("Produto não encontrada com o id :: " + p.getId()));
+    public void delete(Integer id) throws NotFoundException {
+        Product product = this.productRepository.findById(id)
+                          .orElseThrow(() -> new NotFoundException("Produto não encontrada com o id :: " + id));
         this.productRepository.delete(product);
     }
 
@@ -59,7 +66,7 @@ public class ProductService {
                    .orElseThrow(() -> new NotFoundException("Produto não encontrada com o id :: " + id));
     }
 
-    public Page<Product> findAll(int page, int size) throws NotFoundException {
+    public Page<Product> findAll(int page, int size) {
         return this.productRepository.findAll(PageRequest.of(page, size));
     }
 

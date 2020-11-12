@@ -26,9 +26,9 @@ public class BrandService {
         return this.brandRepository.save(brand);
     }
 
-    public void delete(Brand b) throws NotFoundException {
-        Brand brand = this.brandRepository.findById(b.getId())
-                          .orElseThrow(() -> new NotFoundException("Marca não encontrada com o id :: " + b.getId()));
+    public void delete(Integer id) throws NotFoundException {
+        Brand brand = this.brandRepository.findById(id)
+                          .orElseThrow(() -> new NotFoundException("Marca não encontrada com o id :: " + id));
         this.brandRepository.delete(brand);
     }
 
@@ -37,7 +37,7 @@ public class BrandService {
                    .orElseThrow(() -> new NotFoundException("Marca não encontrada com o id :: " + id));
     }
 
-    public Page<Brand> findAll(int page, int size) throws NotFoundException {
+    public Page<Brand> findAll(int page, int size) {
         return this.brandRepository.findAll(PageRequest.of(page, size));
     }
 

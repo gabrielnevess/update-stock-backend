@@ -19,7 +19,9 @@ public class ProductInputService {
     @Autowired
     private ProductService productService;
 
-    public ProductInput save(ProductInput pi) {
+    public ProductInput save(ProductInput pi) throws NotFoundException {
+        Product product = this.productService.findById(pi.getProductId());
+        pi.setProductId(product.getId());
         return this.productInputRepository.save(pi);
     }
 
@@ -35,9 +37,9 @@ public class ProductInputService {
         return this.productInputRepository.save(productInput);
     }
 
-    public void delete(ProductInput pi) throws NotFoundException {
-        ProductInput productInput = this.productInputRepository.findById(pi.getId())
-                          .orElseThrow(() -> new NotFoundException("Entrada de Produto não encontrado com o id :: " + pi.getId()));
+    public void delete(Integer id) throws NotFoundException {
+        ProductInput productInput = this.productInputRepository.findById(id)
+                          .orElseThrow(() -> new NotFoundException("Entrada de Produto não encontrado com o id :: " + id));
         this.productInputRepository.delete(productInput);
     }
 
@@ -46,7 +48,7 @@ public class ProductInputService {
                    .orElseThrow(() -> new NotFoundException("Entrada de Produto não encontrado com o id :: " + id));
     }
 
-    public Page<ProductInput> findAll(int page, int size) throws NotFoundException {
+    public Page<ProductInput> findAll(int page, int size) {
         return this.productInputRepository.findAll(PageRequest.of(page, size));
     }
 

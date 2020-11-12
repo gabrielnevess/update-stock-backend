@@ -19,7 +19,9 @@ public class ProductOutputService {
     @Autowired
     private ProductService productService;
 
-    public ProductOutput save(ProductOutput po) {
+    public ProductOutput save(ProductOutput po) throws NotFoundException {
+        Product product = this.productService.findById(po.getProductId());
+        po.setProductId(product.getId());
         return this.productOutputRepository.save(po);
     }
 
@@ -35,9 +37,9 @@ public class ProductOutputService {
         return this.productOutputRepository.save(productOutput);
     }
 
-    public void delete(ProductOutput po) throws NotFoundException {
-        ProductOutput productOutput = this.productOutputRepository.findById(po.getId())
-                          .orElseThrow(() -> new NotFoundException("Saída de Produto não encontrado com o id :: " + po.getId()));
+    public void delete(Integer id) throws NotFoundException {
+        ProductOutput productOutput = this.productOutputRepository.findById(id)
+                          .orElseThrow(() -> new NotFoundException("Saída de Produto não encontrado com o id :: " + id));
         this.productOutputRepository.delete(productOutput);
     }
 
@@ -46,7 +48,7 @@ public class ProductOutputService {
                    .orElseThrow(() -> new NotFoundException("Saída de Produto não encontrado com o id :: " + id));
     }
 
-    public Page<ProductOutput> findAll(int page, int size) throws NotFoundException {
+    public Page<ProductOutput> findAll(int page, int size) {
         return this.productOutputRepository.findAll(PageRequest.of(page, size));
     }
 

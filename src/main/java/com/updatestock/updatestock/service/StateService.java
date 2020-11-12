@@ -26,9 +26,9 @@ public class StateService {
         return this.stateRepository.save(state);
     }
 
-    public void delete(State st) throws NotFoundException {
-        State state = this.stateRepository.findById(st.getId())
-                          .orElseThrow(() -> new NotFoundException("Estado do produto não encontrado com o id :: " + st.getId()));
+    public void delete(Integer id) throws NotFoundException {
+        State state = this.stateRepository.findById(id)
+                          .orElseThrow(() -> new NotFoundException("Estado do produto não encontrado com o id :: " + id));
         this.stateRepository.delete(state);
     }
 
@@ -37,7 +37,7 @@ public class StateService {
                    .orElseThrow(() -> new NotFoundException("Estado do produto não encontrado com o id :: " + id));
     }
 
-    public Page<State> findAll(int page, int size) throws NotFoundException {
+    public Page<State> findAll(int page, int size) {
         return this.stateRepository.findAll(PageRequest.of(page, size));
     }
 
