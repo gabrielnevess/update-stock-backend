@@ -33,7 +33,7 @@ public class Brand {
 	private Integer id;
 		
 	@NotBlank(message = "marca é obrigatório")
-	@Size(min = 5, max = 50, message = "marca deve ser igual ou superior a {min} caracteres e menor que {max} caracteres")
+	@Size(min = 3, max = 50, message = "marca deve ser igual ou superior a {min} caracteres e menor que {max} caracteres")
 	@Column(name = "name")
 	private String name;
 

@@ -4,7 +4,6 @@ import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.Brand;
 import com.updatestock.updatestock.model.MeasurementUnit;
 import com.updatestock.updatestock.model.Product;
-import com.updatestock.updatestock.model.State;
 import com.updatestock.updatestock.repository.ProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +23,12 @@ public class ProductService {
     @Autowired
     private MeasurementUnitService measurementUnitService;
 
-    @Autowired
-    private StateService stateService;
-
     public Product save(Product p) throws NotFoundException {
         Brand brand = this.brandService.findById(p.getBrandId());
         MeasurementUnit measurementUnit = this.measurementUnitService.findById(p.getMeasurementUnitId());
-        State state = this.stateService.findById(p.getStateId());
 
         p.setBrandId(brand.getId());
         p.setMeasurementUnitId(measurementUnit.getId());
-        p.setStateId(state.getId());
         return this.productRepository.save(p);
     }
 
@@ -44,14 +38,12 @@ public class ProductService {
         
         Brand brand = this.brandService.findById(p.getBrandId());
         MeasurementUnit measurementUnit = this.measurementUnitService.findById(p.getMeasurementUnitId());
-        State state = this.stateService.findById(p.getStateId());
 
         product.setBrandId(brand.getId());
         product.setMeasurementUnitId(measurementUnit.getId());
-        product.setStateId(state.getId());
         product.setName(p.getName());
         product.setModel(p.getModel());
-        product.setSerial(product.getSerial());
+        product.setSerial(p.getSerial());
         return this.productRepository.save(product);
     }
 
