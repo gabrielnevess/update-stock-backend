@@ -36,7 +36,7 @@ public class ProductOutput {
 	@Column(name = "product_id", nullable = false)
     private Integer productId;
 
-	@NotNull(message = "quantidade para entrada é obrigatório")
+	@NotNull(message = "quantidade para saída é obrigatório")
 	@Column(name = "qtd")
     private Integer qtd;
 	

@@ -32,8 +32,8 @@ public class MeasurementUnit {
 	@Column(name = "id")
 	private Integer id;
 	
-	@NotBlank(message = "unidade de medida é obrigatório")
-	@Size(min = 5, max = 50, message = "unidade de medida deve ser igual ou superior a {min} caracteres e menor que {max} caracteres")
+	@NotBlank(message = "nome da unidade de medida é obrigatório")
+	@Size(min = 5, max = 50, message = "nome da unidade de medida deve ser igual ou superior a {min} caracteres e menor que {max} caracteres")
 	@Column(name = "name")
 	private String name;
 
