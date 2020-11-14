@@ -24,11 +24,11 @@ public class ProductService {
     private MeasurementUnitService measurementUnitService;
 
     public Product save(Product p) throws NotFoundException {
-        Brand brand = this.brandService.findById(p.getBrandId());
-        MeasurementUnit measurementUnit = this.measurementUnitService.findById(p.getMeasurementUnitId());
+        Brand brand = this.brandService.findById(p.getBrand().getId());
+        MeasurementUnit measurementUnit = this.measurementUnitService.findById(p.getMeasurementUnit().getId());
 
-        p.setBrandId(brand.getId());
-        p.setMeasurementUnitId(measurementUnit.getId());
+        p.setBrand(brand);
+        p.setMeasurementUnit(measurementUnit);
         return this.productRepository.save(p);
     }
 
@@ -36,11 +36,11 @@ public class ProductService {
         Product product = this.productRepository.findById(p.getId())
                           .orElseThrow(() -> new NotFoundException("Produto não encontrada com o id :: " + p.getId()));
         
-        Brand brand = this.brandService.findById(p.getBrandId());
-        MeasurementUnit measurementUnit = this.measurementUnitService.findById(p.getMeasurementUnitId());
+        Brand brand = this.brandService.findById(p.getBrand().getId());
+        MeasurementUnit measurementUnit = this.measurementUnitService.findById(p.getMeasurementUnit().getId());
 
-        product.setBrandId(brand.getId());
-        product.setMeasurementUnitId(measurementUnit.getId());
+        product.setBrand(brand);
+        product.setMeasurementUnit(measurementUnit);
         product.setName(p.getName());
         product.setModel(p.getModel());
         product.setSerial(p.getSerial());

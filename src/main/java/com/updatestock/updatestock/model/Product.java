@@ -4,9 +4,12 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -32,14 +35,13 @@ public class Product {
 	@Column(name = "id")
 	private Integer id;
 
-	@Column(name = "brand_id", nullable = false)
-	private Integer brandId;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "brand_id")
+	private Brand brand;
 
-	@Column(name = "measurement_unit_id", nullable = false)
-	private Integer measurementUnitId;
-
-	@Column(name = "state_id", nullable = false)
-	private Integer stateId;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "measurement_unit_id")
+	private MeasurementUnit measurementUnit;
 	
 	@NotBlank(message = "nome do produto é obrigatório")
 	@Size(min = 5, max = 255, message = "nome do produto deve ser igual ou superior a {min} caracteres e menor que {max} caracteres")
