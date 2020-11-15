@@ -1,5 +1,6 @@
 package com.updatestock.updatestock.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -25,9 +26,14 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
-public class Brand {
+public class Brand implements Serializable {
     
-    @Id
+    /**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;

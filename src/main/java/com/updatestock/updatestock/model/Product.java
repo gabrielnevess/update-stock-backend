@@ -1,5 +1,6 @@
 package com.updatestock.updatestock.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -13,7 +14,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -28,18 +28,23 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
-public class Product {
+public class Product implements Serializable {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(targetEntity = Brand.class, fetch = FetchType.EAGER)
 	@JoinColumn(name = "brand_id")
 	private Brand brand;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(targetEntity = MeasurementUnit.class, fetch = FetchType.EAGER)
 	@JoinColumn(name = "measurement_unit_id")
 	private MeasurementUnit measurementUnit;
 	

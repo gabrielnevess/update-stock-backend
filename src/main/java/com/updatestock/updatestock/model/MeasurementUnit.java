@@ -1,5 +1,6 @@
 package com.updatestock.updatestock.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -25,20 +26,25 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
-public class MeasurementUnit {
+public class MeasurementUnit implements Serializable {
 	
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
 	
 	@NotBlank(message = "nome da unidade de medida é obrigatório")
-	@Size(min = 5, max = 50, message = "nome da unidade de medida deve ser igual ou superior a {min} caracteres e menor que {max} caracteres")
+	@Size(min = 3, max = 50, message = "nome da unidade de medida deve ser igual ou superior a {min} caracteres e menor que {max} caracteres")
 	@Column(name = "name")
 	private String name;
 
 	@NotBlank(message = "prefixo é obrigatório")
-	@Size(min = 3, max = 15, message = "prefixo deve ser igual ou superior a {min} caracteres e menor que {max} caracteres")
+	@Size(min = 1, max = 15, message = "prefixo deve ser igual ou superior a {min} caracteres e menor que {max} caracteres")
 	@Column(name = "prefix")
 	private String prefix;
 
