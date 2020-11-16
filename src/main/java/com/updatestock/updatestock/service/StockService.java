@@ -27,7 +27,7 @@ public class StockService {
 
     public Stock update(Stock st) throws NotFoundException {
         Stock stock = this.stockRepository.findById(st.getId())
-                          .orElseThrow(() -> new NotFoundException("Estoque não encontrado com o id :: " + st.getId()));
+                          .orElseThrow(() -> new NotFoundException(String.format("Estoque não encontrado com o id :: %d", st.getId())));
 
         Product product = this.productService.findById(st.getProduct().getId());
 
@@ -38,13 +38,18 @@ public class StockService {
 
     public void delete(Integer id) throws NotFoundException {
         Stock stock = this.stockRepository.findById(id)
-                          .orElseThrow(() -> new NotFoundException("Estoque não encontrado com o id :: " + id));
+                          .orElseThrow(() -> new NotFoundException(String.format("Estoque não encontrado com o id :: %d", id)));
         this.stockRepository.delete(stock);
     }
 
     public Stock findById(Integer id) throws NotFoundException {
         return this.stockRepository.findById(id)
-                   .orElseThrow(() -> new NotFoundException("Estoque não encontrado com o id :: " + id));
+                   .orElseThrow(() -> new NotFoundException(String.format("Estoque não encontrado com o id :: %d", id)));
+    }
+
+    public Stock findByProductId(Integer productId) throws NotFoundException {
+        return this.stockRepository.findByProduct_Id(productId)
+                   .orElseThrow(() -> new NotFoundException(String.format("Estoque não encontrado com o id do produto :: %d", productId)));
     }
 
     public Page<Stock> findAll(int page, int size) {

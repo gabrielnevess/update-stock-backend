@@ -1,5 +1,6 @@
 package com.updatestock.updatestock.service;
 
+import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.Product;
 import com.updatestock.updatestock.model.ProductOutput;
@@ -19,15 +20,15 @@ public class ProductOutputService {
     @Autowired
     private ProductService productService;
 
-    public ProductOutput save(ProductOutput po) throws NotFoundException {
-        Product product = this.productService.findById(po.getProduct().getId());
+    public ProductOutput save(ProductOutput po) throws NotFoundException, BadRequestException {
+        Product product = this.productService.findByIdWithStock(po.getProduct().getId());
         po.setProduct(product);
         return this.productOutputRepository.save(po);
     }
 
     public ProductOutput update(ProductOutput po) throws NotFoundException {
         ProductOutput productOutput = this.productOutputRepository.findById(po.getId())
-                          .orElseThrow(() -> new NotFoundException("Saída de Produto não encontrado com o id :: " + po.getId()));
+                          .orElseThrow(() -> new NotFoundException(String.format("Saída de Produto não encontrado com o id :: %d", po.getId())));
         
         Product product = this.productService.findById(po.getProduct().getId());
         
@@ -39,13 +40,13 @@ public class ProductOutputService {
 
     public void delete(Integer id) throws NotFoundException {
         ProductOutput productOutput = this.productOutputRepository.findById(id)
-                          .orElseThrow(() -> new NotFoundException("Saída de Produto não encontrado com o id :: " + id));
+                          .orElseThrow(() -> new NotFoundException(String.format("Saída de Produto não encontrado com o id :: %d", id)));
         this.productOutputRepository.delete(productOutput);
     }
 
     public ProductOutput findById(Integer id) throws NotFoundException {
         return this.productOutputRepository.findById(id)
-                   .orElseThrow(() -> new NotFoundException("Saída de Produto não encontrado com o id :: " + id));
+                   .orElseThrow(() -> new NotFoundException(String.format("Saída de Produto não encontrado com o id :: %d", id)));
     }
 
     public Page<ProductOutput> findAll(int page, int size) {

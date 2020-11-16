@@ -2,6 +2,7 @@ package com.updatestock.updatestock.controller;
 
 import javax.validation.Valid;
 
+import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.ProductOutput;
 import com.updatestock.updatestock.service.ProductOutputService;
@@ -25,19 +26,8 @@ public class ProductOutputController {
     private ProductOutputService productOutputService;
 
     @RequestMapping(value = "/productOutput", method = RequestMethod.POST)
-    public ResponseEntity<ProductOutput> save(@Valid @RequestBody ProductOutput productOutput) throws NotFoundException {
+    public ResponseEntity<ProductOutput> save(@Valid @RequestBody ProductOutput productOutput) throws NotFoundException, BadRequestException {
         return new ResponseEntity<>(productOutputService.save(productOutput), HttpStatus.CREATED);
-    }
-
-    @RequestMapping(value = "/productOutput", method = RequestMethod.PUT)
-    public ResponseEntity<ProductOutput> update(@Valid @RequestBody ProductOutput productOutput) throws NotFoundException {
-        return new ResponseEntity<>(productOutputService.update(productOutput), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/productOutput/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<ProductOutput> delete(@PathVariable(value = "id") Integer id) throws NotFoundException {
-        productOutputService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/productOutput/{id}", method = RequestMethod.GET)

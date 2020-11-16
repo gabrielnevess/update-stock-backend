@@ -21,7 +21,7 @@ public class MeasurementUnitService {
 
     public MeasurementUnit update(MeasurementUnit mu) throws NotFoundException {
         MeasurementUnit measurementUnit = this.measurementUnitRepository.findById(mu.getId())
-                          .orElseThrow(() -> new NotFoundException("Unidade de medida não encontrada com o id :: " + mu.getId()));
+                          .orElseThrow(() -> new NotFoundException(String.format("Unidade de medida não encontrada com o id :: %d", mu.getId())));
         measurementUnit.setName(mu.getName());
         measurementUnit.setPrefix(mu.getPrefix());
         return this.measurementUnitRepository.save(measurementUnit);
@@ -29,13 +29,13 @@ public class MeasurementUnitService {
 
     public void delete(Integer id) throws NotFoundException {
         MeasurementUnit measurementUnit = this.measurementUnitRepository.findById(id)
-                          .orElseThrow(() -> new NotFoundException("Unidade de medida não encontrada com o id :: " + id));
+                          .orElseThrow(() -> new NotFoundException(String.format("Unidade de medida não encontrada com o id :: %d", id)));
         this.measurementUnitRepository.delete(measurementUnit);
     }
 
     public MeasurementUnit findById(Integer id) throws NotFoundException {
         return this.measurementUnitRepository.findById(id)
-                   .orElseThrow(() -> new NotFoundException("Unidade de medida não encontrada com o id :: " + id));
+                   .orElseThrow(() -> new NotFoundException(String.format("Unidade de medida não encontrada com o id :: %d", id)));
     }
 
     public Page<MeasurementUnit> findAll(int page, int size) {

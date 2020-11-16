@@ -1,9 +1,11 @@
 package com.updatestock.updatestock.service;
 
+import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.Brand;
 import com.updatestock.updatestock.model.MeasurementUnit;
 import com.updatestock.updatestock.model.Product;
+import com.updatestock.updatestock.model.Stock;
 import com.updatestock.updatestock.repository.ProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class ProductService {
     @Autowired
     private MeasurementUnitService measurementUnitService;
 
+    @Autowired
+    private StockService stockService;
+
     public Product save(Product p) throws NotFoundException {
         Brand brand = this.brandService.findById(p.getBrand().getId());
         MeasurementUnit measurementUnit = this.measurementUnitService.findById(p.getMeasurementUnit().getId());
@@ -34,7 +39,7 @@ public class ProductService {
 
     public Product update(Product p) throws NotFoundException {
         Product product = this.productRepository.findById(p.getId())
-                          .orElseThrow(() -> new NotFoundException("Produto não encontrada com o id :: " + p.getId()));
+                          .orElseThrow(() -> new NotFoundException(String.format("Produto não encontrada com o id :: %d", p.getId())));
         
         Brand brand = this.brandService.findById(p.getBrand().getId());
         MeasurementUnit measurementUnit = this.measurementUnitService.findById(p.getMeasurementUnit().getId());
@@ -49,17 +54,27 @@ public class ProductService {
 
     public void delete(Integer id) throws NotFoundException {
         Product product = this.productRepository.findById(id)
-                          .orElseThrow(() -> new NotFoundException("Produto não encontrada com o id :: " + id));
+                          .orElseThrow(() -> new NotFoundException(String.format("Produto não encontrada com o id :: %d", id)));
         this.productRepository.delete(product);
     }
 
     public Product findById(Integer id) throws NotFoundException {
         return this.productRepository.findById(id)
-                   .orElseThrow(() -> new NotFoundException("Produto não encontrada com o id :: " + id));
+                   .orElseThrow(() -> new NotFoundException(String.format("Produto não encontrada com o id :: %d", id)));
     }
 
     public Page<Product> findAll(int page, int size) {
         return this.productRepository.findAll(PageRequest.of(page, size));
+    }
+
+    public Product findByIdWithStock(Integer id) throws NotFoundException, BadRequestException {
+        Product product = this.findById(id);
+        Stock stock = this.stockService.findByProductId(product.getId());
+        if(stock.getQtd() > 0) {
+            return product;   
+        } else {
+            throw new BadRequestException(String.format("Sem estoque para o produto %s!", product.getName()));
+        }
     }
 
 }

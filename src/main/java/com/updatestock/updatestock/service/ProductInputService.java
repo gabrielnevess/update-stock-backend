@@ -27,10 +27,9 @@ public class ProductInputService {
 
     public ProductInput update(ProductInput pi) throws NotFoundException {
         ProductInput productInput = this.productInputRepository.findById(pi.getId())
-                          .orElseThrow(() -> new NotFoundException("Entrada de Produto não encontrado com o id :: " + pi.getId()));
+                          .orElseThrow(() -> new NotFoundException(String.format("Entrada de Produto não encontrado com o id :: %d", pi.getId())));
 
         Product product = this.productService.findById(pi.getProduct().getId());
-
         productInput.setProduct(product);
         productInput.setQtd(pi.getQtd());
         productInput.setObservation(pi.getObservation());
@@ -39,13 +38,13 @@ public class ProductInputService {
 
     public void delete(Integer id) throws NotFoundException {
         ProductInput productInput = this.productInputRepository.findById(id)
-                          .orElseThrow(() -> new NotFoundException("Entrada de Produto não encontrado com o id :: " + id));
+                          .orElseThrow(() -> new NotFoundException(String.format("Entrada de Produto não encontrado com o id :: %d", id)));
         this.productInputRepository.delete(productInput);
     }
 
     public ProductInput findById(Integer id) throws NotFoundException {
         return this.productInputRepository.findById(id)
-                   .orElseThrow(() -> new NotFoundException("Entrada de Produto não encontrado com o id :: " + id));
+                   .orElseThrow(() -> new NotFoundException(String.format("Entrada de Produto não encontrado com o id :: %d", id)));
     }
 
     public Page<ProductInput> findAll(int page, int size) {

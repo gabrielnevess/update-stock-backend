@@ -29,17 +29,6 @@ public class ProductInputController {
         return new ResponseEntity<>(productInputService.save(productInput), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/productInput", method = RequestMethod.PUT)
-    public ResponseEntity<ProductInput> update(@Valid @RequestBody ProductInput productInput) throws NotFoundException {
-        return new ResponseEntity<>(productInputService.update(productInput), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/productInput/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<ProductInput> delete(@PathVariable(value = "id") Integer id) throws NotFoundException {
-        productInputService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @RequestMapping(value = "/productInput/{id}", method = RequestMethod.GET)
     public ResponseEntity<ProductInput> findById(@PathVariable(value = "id") Integer id) throws NotFoundException {
         return new ResponseEntity<>(productInputService.findById(id), HttpStatus.OK);
