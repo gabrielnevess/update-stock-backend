@@ -5,13 +5,18 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.updatestock.updatestock.validator.NumberPositiveAndNotZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -39,10 +44,12 @@ public class ProductInput implements Serializable {
 	@Column(name = "id")
 	private Integer id;
 	
-	@Column(name = "product_id", nullable = false)
-    private Integer productId;
+	@OneToOne(targetEntity = Product.class, fetch = FetchType.EAGER)
+	@JoinColumn(name = "product_id")
+	private Product product;
 
 	@NotNull(message = "quantidade para entrada é obrigatório")
+	@NumberPositiveAndNotZero
 	@Column(name = "qtd")
     private Integer qtd;
 

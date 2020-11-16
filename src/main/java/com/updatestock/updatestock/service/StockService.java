@@ -20,8 +20,8 @@ public class StockService {
     private ProductService productService;
 
     public Stock save(Stock st) throws NotFoundException {
-        Product product = this.productService.findById(st.getProductId());
-        st.setProductId(product.getId());
+        Product product = this.productService.findById(st.getProduct().getId());
+        st.setProduct(product);
         return this.stockRepository.save(st);
     }
 
@@ -29,9 +29,9 @@ public class StockService {
         Stock stock = this.stockRepository.findById(st.getId())
                           .orElseThrow(() -> new NotFoundException("Estoque não encontrado com o id :: " + st.getId()));
 
-        Product product = this.productService.findById(st.getProductId());
+        Product product = this.productService.findById(st.getProduct().getId());
 
-        stock.setProductId(product.getId());
+        stock.setProduct(product);
         stock.setQtd(st.getQtd());
         return this.stockRepository.save(stock);
     }

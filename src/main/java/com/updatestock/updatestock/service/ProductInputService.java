@@ -20,8 +20,8 @@ public class ProductInputService {
     private ProductService productService;
 
     public ProductInput save(ProductInput pi) throws NotFoundException {
-        Product product = this.productService.findById(pi.getProductId());
-        pi.setProductId(product.getId());
+        Product product = this.productService.findById(pi.getProduct().getId());
+        pi.setProduct(product);
         return this.productInputRepository.save(pi);
     }
 
@@ -29,9 +29,9 @@ public class ProductInputService {
         ProductInput productInput = this.productInputRepository.findById(pi.getId())
                           .orElseThrow(() -> new NotFoundException("Entrada de Produto não encontrado com o id :: " + pi.getId()));
 
-        Product product = this.productService.findById(pi.getProductId());
+        Product product = this.productService.findById(pi.getProduct().getId());
 
-        productInput.setProductId(product.getId());
+        productInput.setProduct(product);
         productInput.setQtd(pi.getQtd());
         productInput.setObservation(pi.getObservation());
         return this.productInputRepository.save(productInput);

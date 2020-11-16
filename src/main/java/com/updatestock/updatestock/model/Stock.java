@@ -5,9 +5,12 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -36,9 +39,10 @@ public class Stock implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
-	
-    @Column(name = "product_id", nullable = false)
-    private Integer productId;
+		
+	@OneToOne(targetEntity = Product.class, fetch = FetchType.EAGER)
+	@JoinColumn(name = "product_id")
+	private Product product;
 	
 	@NotNull(message = "quantidade do estoque é obrigatório")
 	@Column(name = "qtd")

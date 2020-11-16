@@ -20,8 +20,8 @@ public class ProductOutputService {
     private ProductService productService;
 
     public ProductOutput save(ProductOutput po) throws NotFoundException {
-        Product product = this.productService.findById(po.getProductId());
-        po.setProductId(product.getId());
+        Product product = this.productService.findById(po.getProduct().getId());
+        po.setProduct(product);
         return this.productOutputRepository.save(po);
     }
 
@@ -29,9 +29,9 @@ public class ProductOutputService {
         ProductOutput productOutput = this.productOutputRepository.findById(po.getId())
                           .orElseThrow(() -> new NotFoundException("Saída de Produto não encontrado com o id :: " + po.getId()));
         
-        Product product = this.productService.findById(po.getProductId());
+        Product product = this.productService.findById(po.getProduct().getId());
         
-        productOutput.setProductId(product.getId());
+        productOutput.setProduct(product);
         productOutput.setQtd(po.getQtd());
         productOutput.setObservation(po.getObservation());
         return this.productOutputRepository.save(productOutput);
