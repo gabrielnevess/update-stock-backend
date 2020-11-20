@@ -3,7 +3,6 @@ package com.updatestock.updatestock.service;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.Brand;
 import com.updatestock.updatestock.repository.BrandRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
