@@ -15,5 +15,9 @@ CREATE TABLE IF NOT EXISTS TB_USER (
 
 INSERT INTO TB_USER(ID, ROLE_ID, NAME, LOGIN, PASSWORD, ACTIVE)
 VALUES (1, 1, 'Administrador', '@dmin_2', '$2a$10$RYtz23zhOKtGZT2Qylo2UeGFi4yVq/Q4qLzIiQLYvfSD2gDnYzLBG', true);
+INSERT INTO TB_USER(ID, ROLE_ID, NAME, LOGIN, PASSWORD, ACTIVE)
+VALUES (2, 1, 'Rafael', 'r@fael_33', '$2a$10$RYtz23zhOKtGZT2Qylo2UeGFi4yVq/Q4qLzIiQLYvfSD2gDnYzLBG', true);
+INSERT INTO TB_USER(ID, ROLE_ID, NAME, LOGIN, PASSWORD, ACTIVE)
+VALUES (3, 1, 'Claudionilton', 'cl@udio_154', '$2a$10$RYtz23zhOKtGZT2Qylo2UeGFi4yVq/Q4qLzIiQLYvfSD2gDnYzLBG', true);
 
-SELECT setval('user_id_seq', 1);
+SELECT setval('user_id_seq', 3);
