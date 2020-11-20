@@ -39,7 +39,7 @@ public class Brand implements Serializable {
 	private Integer id;
 		
 	@NotBlank(message = "nome da marca é obrigatório")
-	@Size(min = 3, max = 50, message = "nome da marca deve ser igual ou superior a {min} caracteres e menor que {max} caracteres")
+	@Size(min = 2, max = 50, message = "nome da marca deve ser igual ou superior a {min} caracteres e menor que {max} caracteres")
 	@Column(name = "name")
 	private String name;
 
