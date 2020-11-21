@@ -30,6 +30,12 @@ public class User implements Serializable {
 	@JoinColumn(name = "role_id")
 	private Role role;
 
+	@NotBlank(message = "e-mail é obrigatório")
+	@Email(message = "e-mail inválido")
+	@Size(max = 255, message = "e-mail deve ser menor ou igual a que {max} caracteres")
+	@Column(name = "email")
+	private String email;
+
 	@NotBlank(message = "login é obrigatório")
 	@Pattern(regexp = "^(?!.*([A-Za-z0-9._@])\\1{2})(?=.*[a-z])(?=.*\\d)[A-Za-z0-9._@]+$", message = "login dever conter só letras, números . _ e @ | login dever conter no mínimo 1 caracter letra e número e no máximo 2 caracteres iguais")
 	@Size(min = 5, max = 20, message = "login do usuário deve ter no mínimo {min} caracteres e no máximo {max} caracteres")

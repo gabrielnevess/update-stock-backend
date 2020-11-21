@@ -8,5 +8,6 @@ CREATE TABLE IF NOT EXISTS TB_ROLE (
 );
 
 INSERT INTO TB_ROLE(ID, NAME) VALUES (1, 'ADMINISTRADOR');
+INSERT INTO TB_ROLE(ID, NAME) VALUES (2, 'SUPORTE');
 
-SELECT setval('tb_role_id_seq', 1);
+SELECT setval('tb_role_id_seq', 2);

@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp"; -- criando uuid
+
 CREATE SEQUENCE tb_brand_id_seq;
 
 CREATE TABLE IF NOT EXISTS TB_BRAND (
