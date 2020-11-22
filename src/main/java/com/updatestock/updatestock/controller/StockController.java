@@ -30,6 +30,12 @@ public class StockController {
     }
 
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_ESTOQUE')")
+    @RequestMapping(value = "/stock/productId/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Stock> findByProductId(@PathVariable(value = "id") Integer id) throws NotFoundException {
+        return new ResponseEntity<>(stockService.findByProductId(id), HttpStatus.OK);
+    }
+
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_ESTOQUE')")
     @RequestMapping(value = "/stock/{id}", method = RequestMethod.GET)
     public ResponseEntity<Stock> findById(@PathVariable(value = "id") Integer id) throws NotFoundException {
         return new ResponseEntity<>(stockService.findById(id), HttpStatus.OK);
