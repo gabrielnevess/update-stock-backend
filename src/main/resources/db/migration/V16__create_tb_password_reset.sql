@@ -1,4 +1,4 @@
-CREATE SEQUENCE tb_password_reset_id_seq;
+CREATE SEQUENCE IF NOT EXISTS tb_password_reset_id_seq;
 
 CREATE TABLE IF NOT EXISTS TB_PASSWORD_RESET (
   ID INTEGER PRIMARY KEY NOT NULL DEFAULT NEXTVAL('tb_password_reset_id_seq'),

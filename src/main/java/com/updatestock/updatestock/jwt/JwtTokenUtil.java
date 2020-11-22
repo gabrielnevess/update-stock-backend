@@ -1,10 +1,13 @@
 package com.updatestock.updatestock.jwt;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.function.Function;
 
 import com.updatestock.updatestock.dto.TokenDto;
+import com.updatestock.updatestock.model.Role;
 import com.updatestock.updatestock.model.User;
 import com.updatestock.updatestock.repository.UserRepository;
 
@@ -49,10 +52,15 @@ public class JwtTokenUtil implements Serializable {
 
     public TokenDto generateToken(User user)  {
 
+        List<String> roles = new ArrayList<String>();
+		for (Role role : user.getRoles()) {
+			roles.add(role.getName());
+		}
+
         // Adiciona conteúdo no token
         Claims claims = Jwts.claims();
         claims.put("name", user.getName());
-        claims.put("role", user.getRole().getName());
+        claims.put("roles", roles);
 
         Date createdDate = clock.now();
         String token = Jwts.builder()

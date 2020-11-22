@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,16 +25,19 @@ public class ProductInputController {
     @Autowired
     private ProductInputService productInputService;
 
+    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_ENTRADA_PRODUTO')")
     @RequestMapping(value = "/productInput", method = RequestMethod.POST)
     public ResponseEntity<ProductInput> save(@Valid @RequestBody ProductInput productInput) throws NotFoundException {
         return new ResponseEntity<>(productInputService.save(productInput), HttpStatus.CREATED);
     }
 
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_ENTRADA_PRODUTO')")
     @RequestMapping(value = "/productInput/{id}", method = RequestMethod.GET)
     public ResponseEntity<ProductInput> findById(@PathVariable(value = "id") Integer id) throws NotFoundException {
         return new ResponseEntity<>(productInputService.findById(id), HttpStatus.OK);
     }
 
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_ENTRADA_PRODUTO')")
     @RequestMapping(value = "/productInput", method = RequestMethod.GET)
     public Page<ProductInput> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
                                @RequestParam(value = "limit", defaultValue = "10") int size) {

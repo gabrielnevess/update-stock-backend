@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_user")
@@ -25,10 +26,6 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
-
-	@OneToOne(targetEntity = Role.class, fetch = FetchType.EAGER)
-	@JoinColumn(name = "role_id")
-	private Role role;
 
 	@NotBlank(message = "e-mail é obrigatório")
 	@Email(message = "e-mail inválido")
@@ -57,13 +54,19 @@ public class User implements Serializable {
 
 	@Column(name = "active")
 	private Boolean active = true;
-    
-    @CreationTimestamp
+
+	@CreationTimestamp
 	@Column(name = "created_at")
 	private Timestamp createdAt;
 
 	@UpdateTimestamp
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "tb_user_role", 
+			   joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
+			   inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	private List<Role> roles;
 
 }

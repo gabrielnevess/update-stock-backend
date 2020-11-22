@@ -29,13 +29,13 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     public JwtUser getJwtUser(User user) {
-        return new JwtUser(user, getRole(user));
+        return new JwtUser(user, getRoles(user));
     }
 
-    private Collection<? extends GrantedAuthority> getRole(User user) {
-        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
-        return authorities;
-    }
+    private Collection<? extends GrantedAuthority> getRoles(User user) {
+		Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+		user.getRoles().forEach(p -> authorities.add(new SimpleGrantedAuthority(p.getName().toUpperCase())));
+		return authorities;
+	}
 
 }

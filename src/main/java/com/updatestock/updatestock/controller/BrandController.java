@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,27 +25,32 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
+    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_MARCA')")
     @RequestMapping(value = "/brand", method = RequestMethod.POST)
     public ResponseEntity<Brand> save(@Valid @RequestBody Brand brand) {
         return new ResponseEntity<>(brandService.save(brand), HttpStatus.CREATED);
     }
 
+    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_MARCA')")
     @RequestMapping(value = "/brand", method = RequestMethod.PUT)
     public ResponseEntity<Brand> update(@Valid @RequestBody Brand brand) throws NotFoundException {
         return new ResponseEntity<>(brandService.update(brand), HttpStatus.OK);
     }
 
+    @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_MARCA')")
     @RequestMapping(value = "/brand/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Brand> delete(@PathVariable(value = "id") Integer id) throws NotFoundException {
         brandService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_MARCA')")
     @RequestMapping(value = "/brand/{id}", method = RequestMethod.GET)
     public ResponseEntity<Brand> findById(@PathVariable(value = "id") Integer id) throws NotFoundException {
         return new ResponseEntity<>(brandService.findById(id), HttpStatus.OK);
     }
 
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_MARCA')")
     @RequestMapping(value = "/brand", method = RequestMethod.GET)
     public Page<Brand> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
                                @RequestParam(value = "limit", defaultValue = "10") int size) {
