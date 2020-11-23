@@ -1,5 +1,6 @@
 package com.updatestock.updatestock.service;
 
+import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.Product;
 import com.updatestock.updatestock.model.Stock;
@@ -36,10 +37,15 @@ public class StockService {
         return this.stockRepository.save(stock);
     }
 
-    public void delete(Integer id) throws NotFoundException {
+    public void delete(Integer id) throws NotFoundException, BadRequestException {
         Stock stock = this.stockRepository.findById(id)
                           .orElseThrow(() -> new NotFoundException(String.format("Estoque não encontrado com o id :: %d", id)));
-        this.stockRepository.delete(stock);
+        try {
+            this.stockRepository.delete(stock);
+        } catch (Exception ex) {
+            throw new BadRequestException(
+                    String.format("O Estoque com o id :: %d não pôde ser deletada, pois está em uso!", id));
+        }
     }
 
     public Stock findById(Integer id) throws NotFoundException {

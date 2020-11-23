@@ -1,5 +1,6 @@
 package com.updatestock.updatestock.controller;
 
+import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.Stock;
 import com.updatestock.updatestock.service.StockService;
@@ -24,7 +25,7 @@ public class StockController {
 
     @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_ESTOQUE')")
     @RequestMapping(value = "/stock/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Stock> delete(@PathVariable(value = "id") Integer id) throws NotFoundException {
+    public ResponseEntity<Stock> delete(@PathVariable(value = "id") Integer id) throws NotFoundException, BadRequestException {
         stockService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
