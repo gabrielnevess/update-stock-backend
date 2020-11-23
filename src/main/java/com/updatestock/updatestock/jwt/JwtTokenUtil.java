@@ -68,7 +68,7 @@ public class JwtTokenUtil implements Serializable {
                            .setSubject(user.getLogin())
                            .setIssuedAt(createdDate)
                            .signWith(SignatureAlgorithm.HS512, secret)
-                           .setExpiration(new Date(System.currentTimeMillis() + 5000)) // 24h
+                           .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 24h
                            .compact();
         user.setToken(token);
 
