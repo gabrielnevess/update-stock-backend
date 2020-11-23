@@ -2,6 +2,7 @@ package com.updatestock.updatestock.controller;
 
 import javax.validation.Valid;
 
+import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.Brand;
 import com.updatestock.updatestock.service.BrandService;
@@ -39,7 +40,7 @@ public class BrandController {
 
     @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_MARCA')")
     @RequestMapping(value = "/brand/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Brand> delete(@PathVariable(value = "id") Integer id) throws NotFoundException {
+    public ResponseEntity<Brand> delete(@PathVariable(value = "id") Integer id) throws NotFoundException, BadRequestException {
         brandService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

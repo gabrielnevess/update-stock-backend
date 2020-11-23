@@ -1,5 +1,6 @@
 package com.updatestock.updatestock.service;
 
+import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.MeasurementUnit;
 import com.updatestock.updatestock.repository.MeasurementUnitRepository;
@@ -27,10 +28,15 @@ public class MeasurementUnitService {
         return this.measurementUnitRepository.save(measurementUnit);
     }
 
-    public void delete(Integer id) throws NotFoundException {
+    public void delete(Integer id) throws NotFoundException, BadRequestException {
         MeasurementUnit measurementUnit = this.measurementUnitRepository.findById(id)
                           .orElseThrow(() -> new NotFoundException(String.format("Unidade de medida não encontrada com o id :: %d", id)));
-        this.measurementUnitRepository.delete(measurementUnit);
+        try {
+            this.measurementUnitRepository.delete(measurementUnit);
+        } catch (Exception ex) {
+            throw new BadRequestException(
+                    String.format("A Unidade de Medida com o id :: %d não pode ser deletada, pois está em uso!", id));
+        }
     }
 
     public MeasurementUnit findById(Integer id) throws NotFoundException {

@@ -52,10 +52,14 @@ public class ProductService {
         return this.productRepository.save(product);
     }
 
-    public void delete(Integer id) throws NotFoundException {
+    public void delete(Integer id) throws NotFoundException, BadRequestException {
         Product product = this.productRepository.findById(id)
                           .orElseThrow(() -> new NotFoundException(String.format("Produto não encontrada com o id :: %d", id)));
-        this.productRepository.delete(product);
+        try {
+            this.productRepository.delete(product);
+        } catch (Exception ex) {
+            throw new BadRequestException(String.format("O produto com o id :: %d não pode ser deletado, pois está em uso!", id));
+        }
     }
 
     public Product findById(Integer id) throws NotFoundException {

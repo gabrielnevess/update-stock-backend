@@ -1,5 +1,6 @@
 package com.updatestock.updatestock.service;
 
+import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.Brand;
 import com.updatestock.updatestock.repository.BrandRepository;
@@ -25,10 +26,15 @@ public class BrandService {
         return this.brandRepository.save(brand);
     }
 
-    public void delete(Integer id) throws NotFoundException {
+    public void delete(Integer id) throws NotFoundException, BadRequestException {
         Brand brand = this.brandRepository.findById(id)
                           .orElseThrow(() -> new NotFoundException(String.format("Marca não encontrada com o id :: %d", id)));
-        this.brandRepository.delete(brand);
+        try {
+            this.brandRepository.delete(brand);
+        } catch (Exception ex) {
+            throw new BadRequestException(
+                    String.format("A Marca com o id :: %d não pode ser deletada, pois está em uso!", id));
+        }
     }
 
     public Brand findById(Integer id) throws NotFoundException {

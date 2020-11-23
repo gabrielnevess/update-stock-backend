@@ -2,6 +2,7 @@ package com.updatestock.updatestock.controller;
 
 import javax.validation.Valid;
 
+import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.MeasurementUnit;
 import com.updatestock.updatestock.service.MeasurementUnitService;
@@ -39,7 +40,7 @@ public class MeasurementUnitController {
 
     @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_UNIDADE_MEDIDA')")
     @RequestMapping(value = "/measurementUnit/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<MeasurementUnit> delete(@PathVariable(value = "id") Integer id) throws NotFoundException {
+    public ResponseEntity<MeasurementUnit> delete(@PathVariable(value = "id") Integer id) throws NotFoundException, BadRequestException {
         measurementUnitService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

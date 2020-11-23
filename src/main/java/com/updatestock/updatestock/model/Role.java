@@ -30,7 +30,7 @@ public class Role implements Serializable {
     private Integer id;
     
     @NotBlank(message = "nome da permissão é obrigatório")
-	@Size(min = 5, max = 255, message = "nome da permissão deve ter no mínimo {min} caracteres e no máximo {max} caracteres")
+	@Size(min = 5, max = 50, message = "nome da permissão deve ter no mínimo {min} caracteres e no máximo {max} caracteres")
 	@Column(name = "name")
 	private String name;
 
