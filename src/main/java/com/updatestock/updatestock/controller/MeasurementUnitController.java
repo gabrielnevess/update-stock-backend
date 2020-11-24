@@ -54,7 +54,7 @@ public class MeasurementUnitController {
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_UNIDADE_MEDIDA')")
     @RequestMapping(value = "/measurementUnit", method = RequestMethod.GET)
     public Page<MeasurementUnit> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
-                                         @RequestParam(value = "limit", defaultValue = "10") int size) {
+                                         @RequestParam(value = "limit", defaultValue = "5") int size) {
         return measurementUnitService.findAll(page, size);
     }
 

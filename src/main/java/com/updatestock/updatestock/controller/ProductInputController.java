@@ -40,7 +40,7 @@ public class ProductInputController {
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_ENTRADA_PRODUTO')")
     @RequestMapping(value = "/productInput", method = RequestMethod.GET)
     public Page<ProductInput> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
-                               @RequestParam(value = "limit", defaultValue = "10") int size) {
+                               @RequestParam(value = "limit", defaultValue = "5") int size) {
         return productInputService.findAll(page, size);
     }
 

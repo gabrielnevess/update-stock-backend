@@ -54,7 +54,7 @@ public class ProductController {
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_PRODUTO')")
     @RequestMapping(value = "/product", method = RequestMethod.GET)
     public Page<Product> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
-                                 @RequestParam(value = "limit", defaultValue = "10") int size) {
+                                 @RequestParam(value = "limit", defaultValue = "5") int size) {
         return productService.findAll(page, size);
     }
 

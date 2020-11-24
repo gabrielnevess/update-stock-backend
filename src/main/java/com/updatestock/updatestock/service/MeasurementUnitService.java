@@ -35,7 +35,7 @@ public class MeasurementUnitService {
             this.measurementUnitRepository.delete(measurementUnit);
         } catch (Exception ex) {
             throw new BadRequestException(
-                    String.format("A Unidade de Medida com o id :: %d não pode ser deletada, pois está em uso!", id));
+                    String.format("A Unidade de Medida com o id :: %d não pôde ser deletada, pois está em uso!", id));
         }
     }
 

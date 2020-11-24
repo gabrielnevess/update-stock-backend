@@ -45,7 +45,7 @@ public class StockController {
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_ESTOQUE')")
     @RequestMapping(value = "/stock", method = RequestMethod.GET)
     public Page<Stock> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
-                               @RequestParam(value = "limit", defaultValue = "10") int size) {
+                               @RequestParam(value = "limit", defaultValue = "5") int size) {
         return stockService.findAll(page, size);
     }
 

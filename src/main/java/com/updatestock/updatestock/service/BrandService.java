@@ -33,7 +33,7 @@ public class BrandService {
             this.brandRepository.delete(brand);
         } catch (Exception ex) {
             throw new BadRequestException(
-                    String.format("A Marca com o id :: %d não pode ser deletada, pois está em uso!", id));
+                    String.format("A Marca com o id :: %d não pôde ser deletada, pois está em uso!", id));
         }
     }
 

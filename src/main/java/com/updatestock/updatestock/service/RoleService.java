@@ -32,7 +32,7 @@ public class RoleService {
         try {
             this.roleRepository.delete(role);
         } catch(Exception ex) {
-            throw new BadRequestException(String.format("A permissão com o id :: %d não pode ser deletada, pois está em uso!", id));
+            throw new BadRequestException(String.format("A permissão com o id :: %d não pôde ser deletada, pois está em uso!", id));
         }
     }
 

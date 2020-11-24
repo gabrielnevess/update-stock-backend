@@ -58,7 +58,7 @@ public class ProductService {
         try {
             this.productRepository.delete(product);
         } catch (Exception ex) {
-            throw new BadRequestException(String.format("O produto com o id :: %d não pode ser deletado, pois está em uso!", id));
+            throw new BadRequestException(String.format("O produto com o id :: %d não pôde ser deletado, pois está em uso!", id));
         }
     }
 
