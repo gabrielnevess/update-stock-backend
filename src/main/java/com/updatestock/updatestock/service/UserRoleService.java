@@ -1,5 +1,6 @@
 package com.updatestock.updatestock.service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,9 +79,16 @@ public class UserRoleService {
         this.userRoleRepository.delete(userRole);
     }
 
-    public UserRole findById(UserRoleId ur) throws NotFoundException {
-        return this.userRoleRepository.findById(ur)
-                   .orElseThrow(() -> new NotFoundException(String.format("Usuário Permissão não encontrada com o id :: %d e %d", ur.getUserId(), ur.getRoleId())));
+    public UserRole findById(UserRoleId ur, Principal principal) throws NotFoundException, BadRequestException {
+        User user = this.userRepository.findByLogin(principal.getName())
+                                       .orElseThrow(() -> new NotFoundException(String.format("Usuário não encontrado com o login :: %s", principal.getName())));
+        if (user.getId() == ur.getUserId()) {
+            throw new BadRequestException("Não é possível executar essa ação!");
+
+        } else {
+            return this.userRoleRepository.findById(ur)
+                                          .orElseThrow(() -> new NotFoundException(String.format("Usuário Permissão não encontrada com o id :: %d e %d", ur.getUserId(), ur.getRoleId())));
+        }
     }
 
     public Page<UserRole> findAll(int page, int size) {

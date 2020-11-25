@@ -1,5 +1,6 @@
 package com.updatestock.updatestock.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import com.updatestock.updatestock.dto.UserRolesDto;
@@ -47,13 +48,13 @@ public class UserRoleController {
 
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_USUARIO_PERMISSAO')")
     @RequestMapping(value = "/userRole/findById", method = RequestMethod.GET)
-    public ResponseEntity<UserRole> findById(@RequestParam(value = "userId", required = true) Integer userId,
-                                             @RequestParam(value = "roleId", required = true) Integer roleId) throws NotFoundException {
+    public ResponseEntity<UserRole> findById(Principal principal,
+                                             @RequestParam(value = "userId", required = true) Integer userId,
+                                             @RequestParam(value = "roleId", required = true) Integer roleId) throws NotFoundException, BadRequestException {
         UserRoleId userRoleId = new UserRoleId();
         userRoleId.setUserId(userId);
         userRoleId.setRoleId(roleId);
-        userRoleService.findById(userRoleId);
-        return new ResponseEntity<>(userRoleService.findById(userRoleId), HttpStatus.OK);
+        return new ResponseEntity<>(userRoleService.findById(userRoleId, principal), HttpStatus.OK);
     }
 
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_USUARIO_PERMISSAO')")
