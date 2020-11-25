@@ -83,8 +83,6 @@ public class AuthService {
         PasswordReset passwordReset = new PasswordReset(token, user);
         this.passwordResetRepository.save(passwordReset);
 
-        String appUrl = request.getScheme() + "://" + request.getServerName();
-
         Mail mail = new Mail();
         mail.setFrom(this.environment.getProperty("support.email"));
         mail.setTo(user.getEmail());
@@ -92,7 +90,7 @@ public class AuthService {
 
         Map<String, Object> model = new HashMap<>();
         model.put("name", user.getName());
-        model.put("url", appUrl + "/redefinicao-senha?token=" + token);
+        model.put("url", this.environment.getProperty("path.website.update.stock") + "/redefinicao-senha?token=" + token);
         mail.setModel(model);
 
         this.mailService.sendSimpleMessage(mail, "password_reset_template.ftlh");
