@@ -79,15 +79,15 @@ public class UserRoleService {
         this.userRoleRepository.delete(userRole);
     }
 
-    public UserRole findById(UserRoleId ur, Principal principal) throws NotFoundException, BadRequestException {
+    public UserRole findById(Principal principal, UserRoleId ur) throws NotFoundException, BadRequestException {
         User user = this.userRepository.findByLogin(principal.getName())
-                                       .orElseThrow(() -> new NotFoundException(String.format("Usuário não encontrado com o login :: %s", principal.getName())));
+                        .orElseThrow(() -> new NotFoundException(String.format("Usuário não encontrado com o login :: %s", principal.getName())));
         if (user.getId() == ur.getUserId()) {
             throw new BadRequestException("Não é possível executar essa ação!");
 
         } else {
             return this.userRoleRepository.findById(ur)
-                                          .orElseThrow(() -> new NotFoundException(String.format("Usuário Permissão não encontrada com o id :: %d e %d", ur.getUserId(), ur.getRoleId())));
+                       .orElseThrow(() -> new NotFoundException(String.format("Usuário Permissão não encontrada com o id :: %d e %d", ur.getUserId(), ur.getRoleId())));
         }
     }
 
@@ -99,30 +99,39 @@ public class UserRoleService {
         return this.userRepository.findAll(PageRequest.of(page, size));
     }
 
-    public Map<String, List<UserRolesDto>> findTransferList(Integer userId) {
+    public Map<String, List<UserRolesDto>> findTransferList(Principal principal, Integer userId) throws NotFoundException, BadRequestException {
 
-        Map<String, List<UserRolesDto>> transferList = new HashMap<>();
-        
-        List<UserRolesDto> right = this.userRoleRepository.findByListRight(userId);
-        List<UserRolesDto> left = this.userRoleRepository.findByListLeft(userId);
+        User user = this.userRepository.findByLogin(principal.getName())
+                        .orElseThrow(() -> new NotFoundException(String.format("Usuário não encontrado com o login :: %s", principal.getName())));
+        if (user.getId() == userId) {
+            throw new BadRequestException("Não é possível executar essa ação!");
 
-        if(right.isEmpty()) {
-            List<Role> roles = this.roleService.findAllRoles();
-            
-            for(Role r : roles) {
-                UserRolesDto userRolesDto = new UserRolesDto();
-                userRolesDto.setUserId(userId);
-                userRolesDto.setRoleId(r.getId());
-                userRolesDto.setRoleName(r.getName());
-                left.add(userRolesDto);
+        } else {
+
+            Map<String, List<UserRolesDto>> transferList = new HashMap<>();
+
+            List<UserRolesDto> right = this.userRoleRepository.findByListRight(userId);
+            List<UserRolesDto> left = this.userRoleRepository.findByListLeft(userId);
+
+            if (right.isEmpty()) {
+                List<Role> roles = this.roleService.findAllRoles();
+
+                for (Role r : roles) {
+                    UserRolesDto userRolesDto = new UserRolesDto();
+                    userRolesDto.setUserId(userId);
+                    userRolesDto.setRoleId(r.getId());
+                    userRolesDto.setRoleName(r.getName());
+                    left.add(userRolesDto);
+                }
+
             }
-            
+
+            transferList.put("left", left);
+            transferList.put("right", right);
+
+            return transferList;
+
         }
-
-        transferList.put("left", left);
-        transferList.put("right", right);
-
-        return transferList;
 
     }
 

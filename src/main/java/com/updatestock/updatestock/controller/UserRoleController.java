@@ -54,7 +54,7 @@ public class UserRoleController {
         UserRoleId userRoleId = new UserRoleId();
         userRoleId.setUserId(userId);
         userRoleId.setRoleId(roleId);
-        return new ResponseEntity<>(userRoleService.findById(userRoleId, principal), HttpStatus.OK);
+        return new ResponseEntity<>(userRoleService.findById(principal, userRoleId), HttpStatus.OK);
     }
 
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_USUARIO_PERMISSAO')")
@@ -75,8 +75,9 @@ public class UserRoleController {
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_USUARIO_PERMISSAO') && " +
                            "hasAuthority('ROLE_PESQUISAR_PERMISSAO')")
     @RequestMapping(value = "/userRole/findTransferList/{userId}", method = RequestMethod.GET)
-    public Map<String, List<UserRolesDto>> findTransferList(@PathVariable(value = "userId") Integer userId) {
-        return userRoleService.findTransferList(userId);
+    public Map<String, List<UserRolesDto>> findTransferList(Principal principal, 
+                                                            @PathVariable(value = "userId") Integer userId) throws NotFoundException, BadRequestException {
+        return userRoleService.findTransferList(principal, userId);
     }
     
 }
