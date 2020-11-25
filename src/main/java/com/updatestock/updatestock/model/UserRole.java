@@ -29,7 +29,7 @@ public class UserRole implements Serializable {
     private UserRoleId userRoleId;
 
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
 
     @UpdateTimestamp

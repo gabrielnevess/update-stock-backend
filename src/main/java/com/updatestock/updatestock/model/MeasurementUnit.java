@@ -49,7 +49,7 @@ public class MeasurementUnit implements Serializable {
 	private String prefix;
 
 	@CreationTimestamp
-	@Column(name = "created_at")
+	@Column(name = "created_at", updatable = false)
 	private Timestamp createdAt;
 
 	@UpdateTimestamp

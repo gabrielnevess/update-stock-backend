@@ -56,7 +56,7 @@ public class User implements Serializable {
 	private Boolean active = true;
 
 	@CreationTimestamp
-	@Column(name = "created_at")
+	@Column(name = "created_at", updatable = false)
 	private Timestamp createdAt;
 
 	@UpdateTimestamp

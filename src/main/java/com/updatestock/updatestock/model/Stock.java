@@ -49,7 +49,7 @@ public class Stock implements Serializable {
     private Integer qtd;
 
 	@CreationTimestamp
-	@Column(name = "created_at")
+	@Column(name = "created_at", updatable = false)
 	private Timestamp createdAt;
 
 	@UpdateTimestamp

@@ -1,5 +1,7 @@
 package com.updatestock.updatestock.service;
 
+import java.util.List;
+
 import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.Role;
@@ -43,6 +45,10 @@ public class RoleService {
 
     public Page<Role> findAll(int page, int size) {
         return this.roleRepository.findAll(PageRequest.of(page, size));
+    }
+
+    public List<Role> findAllRoles() {
+        return (List<Role>) this.roleRepository.findAll();
     }
 
 }

@@ -44,7 +44,7 @@ public class Brand implements Serializable {
 	private String name;
 
 	@CreationTimestamp
-	@Column(name = "created_at")
+	@Column(name = "created_at", updatable = false)
 	private Timestamp createdAt;
 
 	@UpdateTimestamp

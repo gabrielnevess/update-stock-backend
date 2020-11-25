@@ -1,8 +1,18 @@
 package com.updatestock.updatestock.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.updatestock.updatestock.dto.UserRolesDto;
+import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
+import com.updatestock.updatestock.model.Role;
+import com.updatestock.updatestock.model.User;
 import com.updatestock.updatestock.model.UserRole;
 import com.updatestock.updatestock.model.UserRoleId;
+import com.updatestock.updatestock.repository.UserRepository;
 import com.updatestock.updatestock.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,15 +25,51 @@ public class UserRoleService {
     @Autowired
     private UserRoleRepository userRoleRepository;
 
-    public UserRole save(UserRole ur) {
-        return this.userRoleRepository.save(ur);
-    }
+    @Autowired
+    private UserRepository userRepository;
 
-    public UserRole update(UserRole ur) throws NotFoundException {
-        UserRole userRole = this.userRoleRepository.findById(ur.getUserRoleId())
-                          .orElseThrow(() -> new NotFoundException(String.format("Usuário Permissão não encontrada com o id :: %d e %d", ur.getUserRoleId().getUserId(), ur.getUserRoleId().getRoleId())));
-        userRole.setUserRoleId(ur.getUserRoleId());
-        return this.userRoleRepository.save(userRole);
+    @Autowired
+    private RoleService roleService;
+
+    public Boolean saveTransferList(Map<String, List<UserRolesDto>> map) throws BadRequestException {
+        try {
+            List<UserRolesDto> left = map.get("left");
+            List<UserRolesDto> right = map.get("right");
+
+            if(left.size() > 0) {
+                List<UserRole> userRoles = new ArrayList<>();
+                for(UserRolesDto ur : left) {
+                    UserRole userRole = new UserRole();
+                    
+                    UserRoleId userRoleId = new UserRoleId();
+                    userRoleId.setUserId(ur.getUserId());
+                    userRoleId.setRoleId(ur.getRoleId());
+
+                    userRole.setUserRoleId(userRoleId);
+                    userRoles.add(userRole);
+                }
+                userRoleRepository.deleteAll(userRoles);
+            }
+
+            if(right.size() > 0) {
+                List<UserRole> userRoles = new ArrayList<>();
+                for(UserRolesDto ur : right) {
+                    UserRole userRole = new UserRole();
+                    
+                    UserRoleId userRoleId = new UserRoleId();
+                    userRoleId.setUserId(ur.getUserId());
+                    userRoleId.setRoleId(ur.getRoleId());
+
+                    userRole.setUserRoleId(userRoleId);
+                    userRoles.add(userRole);
+                }
+                userRoleRepository.saveAll(userRoles);
+            }
+
+            return true;
+        } catch(Exception ex) {
+            throw new BadRequestException("Erro ao salvar as permissões!");
+        }
     }
 
     public void delete(UserRoleId ur) throws NotFoundException {
@@ -39,6 +85,37 @@ public class UserRoleService {
 
     public Page<UserRole> findAll(int page, int size) {
         return this.userRoleRepository.findAll(PageRequest.of(page, size));
+    }
+
+    public Page<User> findAllUsers(int page, int size) {
+        return this.userRepository.findAll(PageRequest.of(page, size));
+    }
+
+    public Map<String, List<UserRolesDto>> findTransferList(Integer userId) {
+
+        Map<String, List<UserRolesDto>> transferList = new HashMap<>();
+        
+        List<UserRolesDto> right = this.userRoleRepository.findByListRight(userId);
+        List<UserRolesDto> left = this.userRoleRepository.findByListLeft(userId);
+
+        if(right.isEmpty()) {
+            List<Role> roles = this.roleService.findAllRoles();
+            
+            for(Role r : roles) {
+                UserRolesDto userRolesDto = new UserRolesDto();
+                userRolesDto.setUserId(userId);
+                userRolesDto.setRoleId(r.getId());
+                userRolesDto.setRoleName(r.getName());
+                left.add(userRolesDto);
+            }
+            
+        }
+
+        transferList.put("left", left);
+        transferList.put("right", right);
+
+        return transferList;
+
     }
 
 }

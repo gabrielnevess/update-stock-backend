@@ -49,7 +49,7 @@ public class PasswordReset implements Serializable {
     private Date expiryDate;
 
 	@CreationTimestamp
-	@Column(name = "created_at")
+	@Column(name = "created_at", updatable = false)
 	private Timestamp createdAt;
 
 	@UpdateTimestamp

@@ -59,7 +59,7 @@ public class ProductOutput implements Serializable {
 	private String observation;
 
 	@CreationTimestamp
-	@Column(name = "created_at")
+	@Column(name = "created_at", updatable = false)
 	private Timestamp createdAt;
 
 	@UpdateTimestamp

@@ -64,7 +64,7 @@ public class Product implements Serializable {
 	private String serial;
 		
 	@CreationTimestamp
-	@Column(name = "created_at")
+	@Column(name = "created_at", updatable = false)
 	private Timestamp createdAt;
 
 	@UpdateTimestamp
