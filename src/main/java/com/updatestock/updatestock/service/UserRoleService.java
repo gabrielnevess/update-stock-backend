@@ -32,44 +32,53 @@ public class UserRoleService {
     @Autowired
     private RoleService roleService;
 
-    public Boolean saveTransferList(Map<String, List<UserRolesDto>> map) throws BadRequestException {
-        try {
-            List<UserRolesDto> left = map.get("left");
-            List<UserRolesDto> right = map.get("right");
+    public Boolean saveTransferList(Principal principal, Integer userId, Map<String, List<UserRolesDto>> map) throws NotFoundException, BadRequestException {
 
-            if(left.size() > 0) {
-                List<UserRole> userRoles = new ArrayList<>();
-                for(UserRolesDto ur : left) {
-                    UserRole userRole = new UserRole();
-                    
-                    UserRoleId userRoleId = new UserRoleId();
-                    userRoleId.setUserId(ur.getUserId());
-                    userRoleId.setRoleId(ur.getRoleId());
+        User user = this.userRepository.findByLogin(principal.getName())
+                        .orElseThrow(() -> new NotFoundException(String.format("Usuário não encontrado com o login :: %s", principal.getName())));
+        if (user.getId() == userId) {
+            throw new BadRequestException("Não é possível executar essa ação!");
 
-                    userRole.setUserRoleId(userRoleId);
-                    userRoles.add(userRole);
+        } else {
+
+            try {
+                List<UserRolesDto> left = map.get("left");
+                List<UserRolesDto> right = map.get("right");
+
+                if (left.size() > 0) {
+                    List<UserRole> userRoles = new ArrayList<>();
+                    for (UserRolesDto ur : left) {
+                        UserRole userRole = new UserRole();
+
+                        UserRoleId userRoleId = new UserRoleId();
+                        userRoleId.setUserId(ur.getUserId());
+                        userRoleId.setRoleId(ur.getRoleId());
+
+                        userRole.setUserRoleId(userRoleId);
+                        userRoles.add(userRole);
+                    }
+                    userRoleRepository.deleteAll(userRoles);
                 }
-                userRoleRepository.deleteAll(userRoles);
-            }
 
-            if(right.size() > 0) {
-                List<UserRole> userRoles = new ArrayList<>();
-                for(UserRolesDto ur : right) {
-                    UserRole userRole = new UserRole();
-                    
-                    UserRoleId userRoleId = new UserRoleId();
-                    userRoleId.setUserId(ur.getUserId());
-                    userRoleId.setRoleId(ur.getRoleId());
+                if (right.size() > 0) {
+                    List<UserRole> userRoles = new ArrayList<>();
+                    for (UserRolesDto ur : right) {
+                        UserRole userRole = new UserRole();
 
-                    userRole.setUserRoleId(userRoleId);
-                    userRoles.add(userRole);
+                        UserRoleId userRoleId = new UserRoleId();
+                        userRoleId.setUserId(ur.getUserId());
+                        userRoleId.setRoleId(ur.getRoleId());
+
+                        userRole.setUserRoleId(userRoleId);
+                        userRoles.add(userRole);
+                    }
+                    userRoleRepository.saveAll(userRoles);
                 }
-                userRoleRepository.saveAll(userRoles);
-            }
 
-            return true;
-        } catch(Exception ex) {
-            throw new BadRequestException("Erro ao salvar as permissões!");
+                return true;
+            } catch (Exception ex) {
+                throw new BadRequestException("Erro ao salvar as permissões!");
+            }
         }
     }
 
@@ -79,24 +88,13 @@ public class UserRoleService {
         this.userRoleRepository.delete(userRole);
     }
 
-    public UserRole findById(Principal principal, UserRoleId ur) throws NotFoundException, BadRequestException {
-        User user = this.userRepository.findByLogin(principal.getName())
-                        .orElseThrow(() -> new NotFoundException(String.format("Usuário não encontrado com o login :: %s", principal.getName())));
-        if (user.getId() == ur.getUserId()) {
-            throw new BadRequestException("Não é possível executar essa ação!");
-
-        } else {
+    public UserRole findById(UserRoleId ur) throws NotFoundException, BadRequestException {
             return this.userRoleRepository.findById(ur)
                        .orElseThrow(() -> new NotFoundException(String.format("Usuário Permissão não encontrada com o id :: %d e %d", ur.getUserId(), ur.getRoleId())));
-        }
     }
 
     public Page<UserRole> findAll(int page, int size) {
         return this.userRoleRepository.findAll(PageRequest.of(page, size));
-    }
-
-    public Page<User> findAllUsers(int page, int size) {
-        return this.userRepository.findAll(PageRequest.of(page, size));
     }
 
     public Map<String, List<UserRolesDto>> findTransferList(Principal principal, Integer userId) throws NotFoundException, BadRequestException {

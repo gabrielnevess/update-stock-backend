@@ -54,9 +54,10 @@ public class UserController {
 
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_USUARIO')")
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public Page<User> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
-                               @RequestParam(value = "limit", defaultValue = "5") int size) {
-        return userService.findAll(page, size);
+    public Page<User> findAll(Principal principal,
+                               @RequestParam(value = "offset", defaultValue = "0") int page,
+                               @RequestParam(value = "limit", defaultValue = "5") int size) throws NotFoundException {
+        return userService.findAllUsers(principal, page, size);
     }
     
 }

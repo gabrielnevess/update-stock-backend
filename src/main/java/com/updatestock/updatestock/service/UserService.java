@@ -110,4 +110,10 @@ public class UserService {
         return this.userRepository.findAll(PageRequest.of(page, size));
     }
 
+    public Page<User> findAllUsers(Principal principal, int page, int size) throws NotFoundException {
+        User user = this.userRepository.findByLogin(principal.getName())
+                        .orElseThrow(() -> new NotFoundException(String.format("Usuário não encontrado com o login :: %s", principal.getName())));
+        return this.userRepository.findAllByNotUser_Id(user.getId(), PageRequest.of(page, size));
+    }
+
 }

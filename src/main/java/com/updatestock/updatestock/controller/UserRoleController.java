@@ -10,6 +10,8 @@ import com.updatestock.updatestock.model.User;
 import com.updatestock.updatestock.model.UserRole;
 import com.updatestock.updatestock.model.UserRoleId;
 import com.updatestock.updatestock.service.UserRoleService;
+import com.updatestock.updatestock.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -29,10 +31,15 @@ public class UserRoleController {
     @Autowired
     private UserRoleService userRoleService;
 
+    @Autowired
+    private UserService userService;
+
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_USUARIO_PERMISSAO')")
-    @RequestMapping(value = "/userRole", method = RequestMethod.POST)
-    public ResponseEntity<Boolean> saveTransferList(@RequestBody Map<String, List<UserRolesDto>> map) throws BadRequestException {
-        return new ResponseEntity<>(userRoleService.saveTransferList(map), HttpStatus.OK);
+    @RequestMapping(value = "/userRole/{userId}", method = RequestMethod.POST)
+    public ResponseEntity<Boolean> saveTransferList(Principal principal,
+                                                    @PathVariable(value = "userId") Integer userId,
+                                                    @RequestBody Map<String, List<UserRolesDto>> map) throws NotFoundException, BadRequestException {
+        return new ResponseEntity<>(userRoleService.saveTransferList(principal, userId, map), HttpStatus.OK);
     }
 
     @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_USUARIO_PERMISSAO')")
@@ -48,13 +55,12 @@ public class UserRoleController {
 
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_USUARIO_PERMISSAO')")
     @RequestMapping(value = "/userRole/findById", method = RequestMethod.GET)
-    public ResponseEntity<UserRole> findById(Principal principal,
-                                             @RequestParam(value = "userId", required = true) Integer userId,
+    public ResponseEntity<UserRole> findById(@RequestParam(value = "userId", required = true) Integer userId,
                                              @RequestParam(value = "roleId", required = true) Integer roleId) throws NotFoundException, BadRequestException {
         UserRoleId userRoleId = new UserRoleId();
         userRoleId.setUserId(userId);
         userRoleId.setRoleId(roleId);
-        return new ResponseEntity<>(userRoleService.findById(principal, userRoleId), HttpStatus.OK);
+        return new ResponseEntity<>(userRoleService.findById(userRoleId), HttpStatus.OK);
     }
 
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_USUARIO_PERMISSAO')")
@@ -67,9 +73,10 @@ public class UserRoleController {
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_USUARIO_PERMISSAO') && " +
                           "hasAuthority('ROLE_PESQUISAR_USUARIO')")
     @RequestMapping(value = "/userRole/users", method = RequestMethod.GET)
-    public Page<User> findAllUsers(@RequestParam(value = "offset", defaultValue = "0") int page,
-                                   @RequestParam(value = "limit", defaultValue = "5") int size) {
-        return userRoleService.findAllUsers(page, size);
+    public Page<User> findAllUsers(Principal principal,
+                                   @RequestParam(value = "offset", defaultValue = "0") int page,
+                                   @RequestParam(value = "limit", defaultValue = "5") int size) throws NotFoundException {
+        return userService.findAllUsers(principal, page, size);
     }
 
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_USUARIO_PERMISSAO') && " +
