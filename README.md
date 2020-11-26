@@ -1,3 +1,5 @@
+<p align="center"><img src="https://imgur.com/a/Nbq9BMs.png" width="216" height="384" /></p>
+
 # Update Stock - Backend
 
 ### Sistema de Gerenciamento de Estoque para setor de tecnologia
