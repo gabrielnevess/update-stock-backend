@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/api")
 public class UserRoleController {
@@ -34,6 +36,7 @@ public class UserRoleController {
     @Autowired
     private UserService userService;
 
+    @ApiOperation(value = "Cadastrar/Atualizar Permissões do Usuário")
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_USUARIO_PERMISSAO')")
     @RequestMapping(value = "/userRole/{userId}", method = RequestMethod.POST)
     public ResponseEntity<Boolean> saveTransferList(Principal principal,
@@ -42,6 +45,7 @@ public class UserRoleController {
         return new ResponseEntity<>(userRoleService.saveTransferList(principal, userId, map), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Deletar Permissão do Usuário")
     @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_USUARIO_PERMISSAO')")
     @RequestMapping(value = "/userRole", method = RequestMethod.DELETE)
     public ResponseEntity<UserRole> delete(@RequestParam(value = "userId", required = true) Integer userId,
@@ -53,6 +57,7 @@ public class UserRoleController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Buscar Permissão do Usuário pelo Id")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_USUARIO_PERMISSAO')")
     @RequestMapping(value = "/userRole/findById", method = RequestMethod.GET)
     public ResponseEntity<UserRole> findById(@RequestParam(value = "userId", required = true) Integer userId,
@@ -63,6 +68,7 @@ public class UserRoleController {
         return new ResponseEntity<>(userRoleService.findById(userRoleId), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Buscar todas as permissões do usuário")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_USUARIO_PERMISSAO')")
     @RequestMapping(value = "/userRole", method = RequestMethod.GET)
     public Page<UserRole> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
@@ -70,6 +76,7 @@ public class UserRoleController {
         return userRoleService.findAll(page, size);
     }
 
+    @ApiOperation(value = "Buscar todos os usuários")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_USUARIO_PERMISSAO') && " +
                           "hasAuthority('ROLE_PESQUISAR_USUARIO')")
     @RequestMapping(value = "/userRole/users", method = RequestMethod.GET)
@@ -79,6 +86,7 @@ public class UserRoleController {
         return userService.findAllUsers(principal, page, size);
     }
 
+    @ApiOperation(value = "Buscar todas as permissões do usuário pelo Id")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_USUARIO_PERMISSAO') && " +
                            "hasAuthority('ROLE_PESQUISAR_PERMISSAO')")
     @RequestMapping(value = "/userRole/findTransferList/{userId}", method = RequestMethod.GET)

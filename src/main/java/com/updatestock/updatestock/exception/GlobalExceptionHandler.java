@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
-// import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -58,13 +58,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 return new ResponseEntity<>(restError, HttpStatus.BAD_REQUEST);
         }
 
-        // @ExceptionHandler(AccessDeniedException.class)
-        // public ResponseEntity<?> handlerAccessDeniedException(AccessDeniedException accessDeniedException,
-        //                 WebRequest webRequest) {
-        //         RestError restError = new RestError(new Date(), accessDeniedException.getMessage(),
-        //                         webRequest.getDescription(false));
-        //         return new ResponseEntity<>(restError, HttpStatus.UNAUTHORIZED);
-        // }
+        @ExceptionHandler(AccessDeniedException.class)
+        public ResponseEntity<?> handlerAccessDeniedException(AccessDeniedException accessDeniedException,
+                        WebRequest webRequest) {
+                RestError restError = new RestError(new Date(), accessDeniedException.getMessage(),
+                                webRequest.getDescription(false));
+                return new ResponseEntity<>(restError, HttpStatus.UNAUTHORIZED);
+        }
 
         @ExceptionHandler(MethodArgumentTypeMismatchException.class)
         public ResponseEntity<Object> handleMethodArgumentTypeMismatch(

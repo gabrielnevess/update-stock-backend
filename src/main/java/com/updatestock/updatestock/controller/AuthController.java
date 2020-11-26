@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import freemarker.template.TemplateException;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/api")
@@ -30,12 +31,14 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @ApiOperation(value = "Login no Sistema")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<TokenDto> login(@Valid @RequestBody UserLoginDto userLoginDto) throws BadRequestException {
         TokenDto tokenDto = authService.login(userLoginDto);
         return new ResponseEntity<TokenDto>(tokenDto, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Esqueci minha senha")
     @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
     public ResponseEntity<Boolean> resetPassword(@Valid @RequestBody UserForgotPasswordDto UserPasswordResetDto,
             HttpServletRequest request) throws NotFoundException, MessagingException, IOException, TemplateException {
@@ -43,6 +46,7 @@ public class AuthController {
         return new ResponseEntity<Boolean>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Atualização de Senha")
     @RequestMapping(value = "/passwordReset", method = RequestMethod.POST)
     public ResponseEntity<Boolean> passwordReset(@Valid @RequestBody PasswordDto passwordDto)
             throws BadRequestException, NotFoundException {

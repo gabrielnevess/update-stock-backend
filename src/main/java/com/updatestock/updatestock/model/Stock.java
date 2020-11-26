@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -29,29 +30,30 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class Stock implements Serializable {
-
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 
+	@ApiModelProperty("Código")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
-		
+	
+	@ApiModelProperty("Produto")
 	@OneToOne(targetEntity = Product.class, fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id")
 	private Product product;
 	
+	@ApiModelProperty("Quantidade")
 	@NotNull(message = "quantidade do estoque é obrigatório")
 	@Column(name = "qtd")
     private Integer qtd;
 
+	@ApiModelProperty(value = "Data de Criação", hidden = true)
 	@CreationTimestamp
 	@Column(name = "created_at", updatable = false)
 	private Timestamp createdAt;
 
+	@ApiModelProperty(value = "Data de Atualização", hidden = true)
 	@UpdateTimestamp
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;

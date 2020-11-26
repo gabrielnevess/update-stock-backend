@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/api")
 public class BrandController {
@@ -26,18 +28,21 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
+    @ApiOperation(value = "Cadastrar Marca")
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_MARCA')")
     @RequestMapping(value = "/brand", method = RequestMethod.POST)
     public ResponseEntity<Brand> save(@Valid @RequestBody Brand brand) {
         return new ResponseEntity<>(brandService.save(brand), HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "Atulizar Marca")
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_MARCA')")
     @RequestMapping(value = "/brand", method = RequestMethod.PUT)
     public ResponseEntity<Brand> update(@Valid @RequestBody Brand brand) throws NotFoundException {
         return new ResponseEntity<>(brandService.update(brand), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Deletar Marca")
     @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_MARCA')")
     @RequestMapping(value = "/brand/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Brand> delete(@PathVariable(value = "id") Integer id) throws NotFoundException, BadRequestException {
@@ -45,12 +50,14 @@ public class BrandController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Pesquisar Marca pelo Id")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_MARCA')")
     @RequestMapping(value = "/brand/{id}", method = RequestMethod.GET)
     public ResponseEntity<Brand> findById(@PathVariable(value = "id") Integer id) throws NotFoundException {
         return new ResponseEntity<>(brandService.findById(id), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Buscar todas as marcas")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_MARCA')")
     @RequestMapping(value = "/brand", method = RequestMethod.GET)
     public Page<Brand> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,

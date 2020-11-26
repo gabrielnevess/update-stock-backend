@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/api")
 public class ProductController {
@@ -26,18 +28,21 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @ApiOperation(value = "Cadastrar Produto")
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_PRODUTO')")
     @RequestMapping(value = "/product", method = RequestMethod.POST)
     public ResponseEntity<Product> save(@Valid @RequestBody Product product) throws NotFoundException {
         return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "Atualizar Produto")
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_PRODUTO')")
     @RequestMapping(value = "/product", method = RequestMethod.PUT)
     public ResponseEntity<Product> update(@Valid @RequestBody Product product) throws NotFoundException {
         return new ResponseEntity<>(productService.update(product), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Deletar Produto")
     @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_PRODUTO')")
     @RequestMapping(value = "/product/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Product> delete(@PathVariable(value = "id") Integer id) throws NotFoundException, BadRequestException {
@@ -45,12 +50,14 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Buscar Produto pelo Id")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_PRODUTO')")
     @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
     public ResponseEntity<Product> findById(@PathVariable(value = "id") Integer id) throws NotFoundException {
         return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Buscar todos os produtos")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_PRODUTO')")
     @RequestMapping(value = "/product", method = RequestMethod.GET)
     public Page<Product> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,

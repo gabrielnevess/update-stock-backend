@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/api")
 public class ProductOutputController {
@@ -26,18 +28,21 @@ public class ProductOutputController {
     @Autowired
     private ProductOutputService productOutputService;
 
+    @ApiOperation(value = "Cadastrar Saída de Produto")
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_SAIDA_PRODUTO')")
     @RequestMapping(value = "/productOutput", method = RequestMethod.POST)
     public ResponseEntity<ProductOutput> save(@Valid @RequestBody ProductOutput productOutput) throws NotFoundException, BadRequestException {
         return new ResponseEntity<>(productOutputService.save(productOutput), HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "Buscar Saída de Produto pelo Id")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_SAIDA_PRODUTO')")
     @RequestMapping(value = "/productOutput/{id}", method = RequestMethod.GET)
     public ResponseEntity<ProductOutput> findById(@PathVariable(value = "id") Integer id) throws NotFoundException {
         return new ResponseEntity<>(productOutputService.findById(id), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Buscar todas as saídas de produtos")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_SAIDA_PRODUTO')")
     @RequestMapping(value = "/productOutput", method = RequestMethod.GET)
     public Page<ProductOutput> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,

@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/api")
 public class RoleController {
@@ -26,18 +28,21 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
+    @ApiOperation(value = "Cadastrar Permissão")
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_PERMISSAO')")
     @RequestMapping(value = "/role", method = RequestMethod.POST)
     public ResponseEntity<Role> save(@Valid @RequestBody Role role) {
         return new ResponseEntity<>(roleService.save(role), HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "Atualizar Permissão")
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_PERMISSAO')")
     @RequestMapping(value = "/role", method = RequestMethod.PUT)
     public ResponseEntity<Role> update(@Valid @RequestBody Role role) throws NotFoundException {
         return new ResponseEntity<>(roleService.update(role), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Deletar Permissão")
     @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_PERMISSAO')")
     @RequestMapping(value = "/role/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Role> delete(@PathVariable(value = "id") Integer id) throws NotFoundException, BadRequestException {
@@ -45,12 +50,14 @@ public class RoleController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Buscar Permissão pelo Id")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_PERMISSAO')")
     @RequestMapping(value = "/role/{id}", method = RequestMethod.GET)
     public ResponseEntity<Role> findById(@PathVariable(value = "id") Integer id) throws NotFoundException {
         return new ResponseEntity<>(roleService.findById(id), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Buscar todas as permissões")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_PERMISSAO')")
     @RequestMapping(value = "/role", method = RequestMethod.GET)
     public Page<Role> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,

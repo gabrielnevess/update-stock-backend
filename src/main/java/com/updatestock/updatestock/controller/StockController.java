@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/api")
 public class StockController {
@@ -23,6 +25,7 @@ public class StockController {
     @Autowired
     private StockService stockService;
 
+    @ApiOperation(value = "Deletar Estoque")
     @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_ESTOQUE')")
     @RequestMapping(value = "/stock/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Stock> delete(@PathVariable(value = "id") Integer id) throws NotFoundException, BadRequestException {
@@ -30,18 +33,21 @@ public class StockController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Buscar Estoque pelo Id do Produto")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_ESTOQUE')")
     @RequestMapping(value = "/stock/productId/{id}", method = RequestMethod.GET)
     public ResponseEntity<Stock> findByProductId(@PathVariable(value = "id") Integer id) throws NotFoundException {
         return new ResponseEntity<>(stockService.findByProductId(id), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Buscar Estoque pelo Id")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_ESTOQUE')")
     @RequestMapping(value = "/stock/{id}", method = RequestMethod.GET)
     public ResponseEntity<Stock> findById(@PathVariable(value = "id") Integer id) throws NotFoundException {
         return new ResponseEntity<>(stockService.findById(id), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Buscar todos os estoques")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_ESTOQUE')")
     @RequestMapping(value = "/stock", method = RequestMethod.GET)
     public Page<Stock> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
