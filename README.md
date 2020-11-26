@@ -2,6 +2,9 @@
 
 ### Sistema de Gerenciamento de Estoque para setor de tecnologia
 
-### Licença MIT
- 
-O Update Stock é lançado sob a Licença MIT, que pode ser encontrada no arquivo LICENSE na raiz deste projeto.
+# Ferramentas Utilizadas
+ * Spring Boot - https://spring.io/projects/spring-boot
+ * FlyWay - https://flywaydb.org/
+ * PostgreSQL - https://www.postgresql.org/
+
+<p align="center"><a href="https://github.com/gabrielnevess/update-stock-backend/blob/main/LICENSE.md"><img src="https://img.shields.io/static/v1.svg?style=flat-square&label=License&message=MIT&logoColor=eceff4&logo=github&colorA=2196f3&colorB=f6921e"/></a></p>
