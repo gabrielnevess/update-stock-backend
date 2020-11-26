@@ -1,4 +1,4 @@
-<p align="center"><img src="https://imgur.com/a/Nbq9BMs.png" width="216" height="384" /></p>
+<p align="center"><img src="https://imgur.com/a/fws9EHq.png" width="216" height="384" /></p>
 
 # Update Stock - Backend
 
