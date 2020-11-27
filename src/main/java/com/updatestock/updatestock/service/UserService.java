@@ -18,9 +18,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User save(User u) throws BadRequestException {
+    public User save(User u) {
         u.setPassword(new BCryptPasswordEncoder().encode(u.getPassword()));
-        return userRepository.save(u);
+        return this.userRepository.save(u);
     }
 
     public User update(User u, Principal principal) throws NotFoundException, BadRequestException {
