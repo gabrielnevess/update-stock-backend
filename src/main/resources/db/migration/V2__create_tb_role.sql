@@ -1,5 +1,3 @@
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp"; -- criando uuid
-
 CREATE SEQUENCE IF NOT EXISTS tb_role_id_seq;
 
 CREATE TABLE IF NOT EXISTS TB_ROLE (

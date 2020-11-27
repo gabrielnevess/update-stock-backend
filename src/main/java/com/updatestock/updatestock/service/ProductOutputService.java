@@ -1,9 +1,12 @@
 package com.updatestock.updatestock.service;
 
+import java.security.Principal;
+
 import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.Product;
 import com.updatestock.updatestock.model.ProductOutput;
+import com.updatestock.updatestock.model.User;
 import com.updatestock.updatestock.repository.ProductOutputRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +23,26 @@ public class ProductOutputService {
     @Autowired
     private ProductService productService;
 
-    public ProductOutput save(ProductOutput po) throws NotFoundException, BadRequestException {
+    @Autowired
+    private UserService userService;
+
+    public ProductOutput save(Principal principal, ProductOutput po) throws NotFoundException, BadRequestException {
+        User user = this.userService.findById(principal);
         Product product = this.productService.findByIdWithStock(po.getProduct().getId());
+        
+        po.setUser(user);
         po.setProduct(product);
         return this.productOutputRepository.save(po);
     }
 
-    public ProductOutput update(ProductOutput po) throws NotFoundException {
+    public ProductOutput update(Principal principal, ProductOutput po) throws NotFoundException {
+        User user = this.userService.findById(principal);
         ProductOutput productOutput = this.productOutputRepository.findById(po.getId())
                           .orElseThrow(() -> new NotFoundException(String.format("Saída de Produto não encontrado com o id :: %d", po.getId())));
         
         Product product = this.productService.findById(po.getProduct().getId());
         
+        productOutput.setUser(user);
         productOutput.setProduct(product);
         productOutput.setQtd(po.getQtd());
         productOutput.setObservation(po.getObservation());

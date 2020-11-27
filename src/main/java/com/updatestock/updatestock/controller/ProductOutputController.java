@@ -1,5 +1,7 @@
 package com.updatestock.updatestock.controller;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 import com.updatestock.updatestock.exception.BadRequestException;
@@ -31,8 +33,9 @@ public class ProductOutputController {
     @ApiOperation(value = "Cadastrar Saída de Produto")
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_SAIDA_PRODUTO')")
     @RequestMapping(value = "/productOutput", method = RequestMethod.POST)
-    public ResponseEntity<ProductOutput> save(@Valid @RequestBody ProductOutput productOutput) throws NotFoundException, BadRequestException {
-        return new ResponseEntity<>(productOutputService.save(productOutput), HttpStatus.CREATED);
+    public ResponseEntity<ProductOutput> save(Principal principal,
+                                              @Valid @RequestBody ProductOutput productOutput) throws NotFoundException, BadRequestException {
+        return new ResponseEntity<>(productOutputService.save(principal, productOutput), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Buscar Saída de Produto pelo Id")

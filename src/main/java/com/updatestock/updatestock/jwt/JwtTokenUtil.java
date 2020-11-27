@@ -5,18 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
-
 import com.updatestock.updatestock.dto.TokenDto;
 import com.updatestock.updatestock.model.Role;
 import com.updatestock.updatestock.model.User;
-import com.updatestock.updatestock.repository.UserRepository;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Clock;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -26,9 +22,6 @@ public class JwtTokenUtil implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Clock clock = DefaultClock.INSTANCE;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -50,7 +43,7 @@ public class JwtTokenUtil implements Serializable {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
-    public TokenDto generateToken(User user)  {
+    public TokenDto generateToken(User user) {
 
         List<String> roles = new ArrayList<String>();
 		for (Role role : user.getRoles()) {
@@ -70,10 +63,8 @@ public class JwtTokenUtil implements Serializable {
                            .signWith(SignatureAlgorithm.HS512, secret)
                            .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 24h
                            .compact();
-        user.setToken(token);
-
         TokenDto tokenDto = new TokenDto();
-        tokenDto.setToken(this.userRepository.save(user).getToken());
+        tokenDto.setToken(token);
         return tokenDto;
         
     }

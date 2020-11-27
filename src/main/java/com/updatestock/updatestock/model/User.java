@@ -64,10 +64,6 @@ public class User implements Serializable {
 	@Column(name = "name")
 	private String name;
 
-	@ApiModelProperty("Token JWT")
-	@Column(name = "token")
-	private String token;
-
 	@ApiModelProperty("Usuário Ativo True/False")
 	@Column(name = "active")
 	private Boolean active = true;

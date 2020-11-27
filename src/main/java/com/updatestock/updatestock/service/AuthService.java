@@ -66,7 +66,7 @@ public class AuthService {
 
     /**
      * 
-     * Esqueci a senha / evnio de email
+     * Esqueci a senha / envio de email
      * 
      * @param email
      * @param request

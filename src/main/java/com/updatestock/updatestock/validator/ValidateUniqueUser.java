@@ -22,7 +22,7 @@ public @interface ValidateUniqueUser {
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 
-    String message() default "";
+    String message() default "Já existe um usuário com este E-mail ou Login.";
     String fieldId();
     String fieldLogin();
     String fieldEmail();
@@ -49,7 +49,7 @@ public @interface ValidateUniqueUser {
             String login = (String) new BeanWrapperImpl(value).getPropertyValue(fieldLogin);
             String email = (String) new BeanWrapperImpl(value).getPropertyValue(fieldEmail);
 
-            //desativando messagem existente
+            // desativando messagem existente
             context.disableDefaultConstraintViolation();
 
             if (id != null) {
@@ -64,7 +64,7 @@ public @interface ValidateUniqueUser {
                             context.buildConstraintViolationWithTemplate(MESSAGE_BAD_REQUEST_EMAIL)
                                     .addPropertyNode(fieldEmail)
                                     .addConstraintViolation();
-                                return false;
+                            return false;
                         }
                     }
 
@@ -80,7 +80,9 @@ public @interface ValidateUniqueUser {
                     }
 
                 }
-            } else { // verificando caso o id do usuário seja nulo
+
+                // verificando caso o id do usuário seja nulo
+            } else {
                 // verificando se há algum email igual na base de dados
                 if (this.userRepository.findByEmail(email).isPresent()) {
                     context.buildConstraintViolationWithTemplate(MESSAGE_BAD_REQUEST_EMAIL)
@@ -92,10 +94,11 @@ public @interface ValidateUniqueUser {
                 // verificando se há algum login igual na base de dados
                 if (this.userRepository.findByLogin(login).isPresent()) {
                     context.buildConstraintViolationWithTemplate(MESSAGE_BAD_REQUEST_LOGIN)
-                           .addPropertyNode(fieldLogin)
-                           .addConstraintViolation();
+                            .addPropertyNode(fieldLogin)
+                            .addConstraintViolation();
                     return false;
                 }
+
             }
 
             return true;

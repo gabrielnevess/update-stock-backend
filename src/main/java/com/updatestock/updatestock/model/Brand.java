@@ -35,7 +35,7 @@ public class Brand implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
-	
+
 	@ApiModelProperty("Nome")
 	@NotBlank(message = "nome da marca é obrigatório")
 	@Size(min = 2, max = 50, message = "nome da marca deve ser igual ou superior a {min} caracteres e menor que {max} caracteres")

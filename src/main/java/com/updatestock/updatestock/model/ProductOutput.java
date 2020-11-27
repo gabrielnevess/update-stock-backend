@@ -47,6 +47,11 @@ public class ProductOutput implements Serializable {
 	@JoinColumn(name = "product_id")
 	private Product product;
 
+	@ApiModelProperty("Usuário")
+	@OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
+	private User user;
+
 	@ApiModelProperty("Quantidade")
 	@NotNull(message = "quantidade para saída é obrigatório")
 	@NumberPositiveAndNotZero

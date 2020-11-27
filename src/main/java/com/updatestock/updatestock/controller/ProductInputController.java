@@ -1,5 +1,7 @@
 package com.updatestock.updatestock.controller;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 import com.updatestock.updatestock.exception.NotFoundException;
@@ -30,8 +32,9 @@ public class ProductInputController {
     @ApiOperation(value = "Cadastrar Entrada de Produto")
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_ENTRADA_PRODUTO')")
     @RequestMapping(value = "/productInput", method = RequestMethod.POST)
-    public ResponseEntity<ProductInput> save(@Valid @RequestBody ProductInput productInput) throws NotFoundException {
-        return new ResponseEntity<>(productInputService.save(productInput), HttpStatus.CREATED);
+    public ResponseEntity<ProductInput> save(Principal principal,
+                                             @Valid @RequestBody ProductInput productInput) throws NotFoundException {
+        return new ResponseEntity<>(productInputService.save(principal, productInput), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Buscar Entrada de Produto pelo Id")
