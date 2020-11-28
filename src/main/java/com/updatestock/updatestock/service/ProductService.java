@@ -5,9 +5,7 @@ import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.Brand;
 import com.updatestock.updatestock.model.MeasurementUnit;
 import com.updatestock.updatestock.model.Product;
-import com.updatestock.updatestock.model.Stock;
 import com.updatestock.updatestock.repository.ProductRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,9 +22,6 @@ public class ProductService {
 
     @Autowired
     private MeasurementUnitService measurementUnitService;
-
-    @Autowired
-    private StockService stockService;
 
     public Product save(Product p) throws NotFoundException {
         Brand brand = this.brandService.findById(p.getBrand().getId());

@@ -51,7 +51,7 @@ public class UserRoleService {
                         UserRole userRole = new UserRole();
 
                         UserRoleId userRoleId = new UserRoleId();
-                        userRoleId.setUserId(ur.getUserId());
+                        userRoleId.setUserId(user.getId());
                         userRoleId.setRoleId(ur.getRoleId());
 
                         userRole.setUserRoleId(userRoleId);
@@ -66,7 +66,7 @@ public class UserRoleService {
                         UserRole userRole = new UserRole();
 
                         UserRoleId userRoleId = new UserRoleId();
-                        userRoleId.setUserId(ur.getUserId());
+                        userRoleId.setUserId(user.getId());
                         userRoleId.setRoleId(ur.getRoleId());
 
                         userRole.setUserRoleId(userRoleId);

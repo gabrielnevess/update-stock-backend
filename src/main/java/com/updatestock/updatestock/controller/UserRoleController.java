@@ -11,7 +11,6 @@ import com.updatestock.updatestock.model.UserRole;
 import com.updatestock.updatestock.model.UserRoleId;
 import com.updatestock.updatestock.service.UserRoleService;
 import com.updatestock.updatestock.service.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
