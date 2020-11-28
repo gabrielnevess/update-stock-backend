@@ -71,14 +71,4 @@ public class ProductService {
         return this.productRepository.findAll(PageRequest.of(page, size));
     }
 
-    public Product findByIdWithStock(Integer id) throws NotFoundException, BadRequestException {
-        Product product = this.findById(id);
-        Stock stock = this.stockService.findByProductId(product.getId());
-        if(stock.getQtd() > 0) {
-            return product;   
-        } else {
-            throw new BadRequestException(String.format("Sem estoque para o produto %s!", product.getName()));
-        }
-    }
-
 }

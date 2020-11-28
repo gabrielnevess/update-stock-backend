@@ -6,6 +6,7 @@ import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.Product;
 import com.updatestock.updatestock.model.ProductOutput;
+import com.updatestock.updatestock.model.Stock;
 import com.updatestock.updatestock.model.User;
 import com.updatestock.updatestock.repository.ProductOutputRepository;
 
@@ -26,10 +27,19 @@ public class ProductOutputService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private StockService stockService;
+
     public ProductOutput save(Principal principal, ProductOutput po) throws NotFoundException, BadRequestException {
         User user = this.userService.findById(principal);
-        Product product = this.productService.findByIdWithStock(po.getProduct().getId());
+        Product product = this.productService.findById(po.getProduct().getId());
         
+        Stock stock = stockService.findByProductId(product.getId());
+        Integer qtdStock = (stock.getQtd() - po.getQtd());
+        if(qtdStock < 0) {
+            throw new BadRequestException("Quantidade do estoque excedida!");
+        }
+
         po.setUser(user);
         po.setProduct(product);
         return this.productOutputRepository.save(po);
