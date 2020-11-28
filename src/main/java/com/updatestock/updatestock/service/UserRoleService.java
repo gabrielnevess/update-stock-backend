@@ -40,6 +40,8 @@ public class UserRoleService {
             throw new BadRequestException("Não é possível executar essa ação!");
 
         } else {
+            user = this.userRepository.findById(userId)
+                            .orElseThrow(() -> new NotFoundException(String.format("Usuário não encontrado com o id :: ", userId)));
 
             try {
                 List<UserRolesDto> left = map.get("left");
@@ -48,13 +50,13 @@ public class UserRoleService {
                 if (left.size() > 0) {
                     List<UserRole> userRoles = new ArrayList<>();
                     for (UserRolesDto ur : left) {
-                        UserRole userRole = new UserRole();
-
                         UserRoleId userRoleId = new UserRoleId();
                         userRoleId.setUserId(user.getId());
                         userRoleId.setRoleId(ur.getRoleId());
 
+                        UserRole userRole = new UserRole();
                         userRole.setUserRoleId(userRoleId);
+
                         userRoles.add(userRole);
                     }
                     userRoleRepository.deleteAll(userRoles);
@@ -63,13 +65,14 @@ public class UserRoleService {
                 if (right.size() > 0) {
                     List<UserRole> userRoles = new ArrayList<>();
                     for (UserRolesDto ur : right) {
-                        UserRole userRole = new UserRole();
 
                         UserRoleId userRoleId = new UserRoleId();
                         userRoleId.setUserId(user.getId());
                         userRoleId.setRoleId(ur.getRoleId());
 
+                        UserRole userRole = new UserRole();
                         userRole.setUserRoleId(userRoleId);
+
                         userRoles.add(userRole);
                     }
                     userRoleRepository.saveAll(userRoles);
