@@ -48,8 +48,8 @@ public class ProductInputController {
     @ApiOperation(value = "Buscar todas as entradas de produtos")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_ENTRADA_PRODUTO')")
     @RequestMapping(value = "/productInput", method = RequestMethod.GET)
-    public Page<ProductInput> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
-                               @RequestParam(value = "limit", defaultValue = "5") int size) {
+    public Page<ProductInput> findAll(@RequestParam(value = "offset") int page,
+                               @RequestParam(value = "limit") int size) {
         return this.productInputService.findAll(page, size);
     }
 

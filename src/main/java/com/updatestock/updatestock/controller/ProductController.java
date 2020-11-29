@@ -60,8 +60,8 @@ public class ProductController {
     @ApiOperation(value = "Buscar todos os produtos")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_PRODUTO')")
     @RequestMapping(value = "/product", method = RequestMethod.GET)
-    public Page<Product> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
-                                 @RequestParam(value = "limit", defaultValue = "5") int size) {
+    public Page<Product> findAll(@RequestParam(value = "offset") int page,
+                                 @RequestParam(value = "limit") int size) {
         return this.productService.findAll(page, size);
     }
 

@@ -60,8 +60,8 @@ public class BrandController {
     @ApiOperation(value = "Buscar todas as marcas")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_MARCA')")
     @RequestMapping(value = "/brand", method = RequestMethod.GET)
-    public Page<Brand> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
-                               @RequestParam(value = "limit", defaultValue = "5") int size) {
+    public Page<Brand> findAll(@RequestParam(value = "offset") int page,
+                               @RequestParam(value = "limit") int size) {
         return this.brandService.findAll(page, size);
     }
 
