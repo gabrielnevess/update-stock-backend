@@ -60,8 +60,8 @@ public class RoleController {
     @ApiOperation(value = "Buscar todas as permissões")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_PERMISSAO')")
     @RequestMapping(value = "/role", method = RequestMethod.GET)
-    public Page<Role> findAll(@RequestParam(value = "offset") int page,
-                               @RequestParam(value = "limit") int size) {
+    public Page<Role> findAll(@RequestParam(value = "offset", required = false) int page,
+                               @RequestParam(value = "limit", required = false) int size) {
         return this.roleService.findAll(page, size);
     }
 
