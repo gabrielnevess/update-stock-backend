@@ -76,7 +76,7 @@ public class UserService {
                    .orElseThrow(() -> new NotFoundException(String.format("Usuário não encontrado com o login :: %s", principal.getName())));
     }
 
-    public Page<User> findAll(int page, int size) {
+    public Page<User> findAll(Integer page, Integer size) {
         return this.userRepository.findAll(PageRequest.of(page, size));
     }
 

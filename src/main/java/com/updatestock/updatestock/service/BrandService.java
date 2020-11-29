@@ -42,7 +42,7 @@ public class BrandService {
                    .orElseThrow(() -> new NotFoundException(String.format("Marca não encontrada com o id :: %d", id)));
     }
 
-    public Page<Brand> findAll(int page, int size) {
+    public Page<Brand> findAll(Integer page, Integer size) {
         return this.brandRepository.findAll(PageRequest.of(page, size));
     }
 

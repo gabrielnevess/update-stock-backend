@@ -44,7 +44,7 @@ public class MeasurementUnitService {
                    .orElseThrow(() -> new NotFoundException(String.format("Unidade de medida não encontrada com o id :: %d", id)));
     }
 
-    public Page<MeasurementUnit> findAll(int page, int size) {
+    public Page<MeasurementUnit> findAll(Integer page, Integer size) {
         return this.measurementUnitRepository.findAll(PageRequest.of(page, size));
     }
 

@@ -43,7 +43,7 @@ public class RoleService {
                    .orElseThrow(() -> new NotFoundException(String.format("Permissão não encontrada com o id :: %d", id)));
     }
 
-    public Page<Role> findAll(int page, int size) {
+    public Page<Role> findAll(Integer page, Integer size) {
         return this.roleRepository.findAll(PageRequest.of(page, size));
     }
 
