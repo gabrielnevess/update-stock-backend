@@ -34,7 +34,7 @@ public class AuthController {
     @ApiOperation(value = "Login no Sistema")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<TokenDto> login(@Valid @RequestBody UserLoginDto userLoginDto) throws BadRequestException {
-        TokenDto tokenDto = authService.login(userLoginDto);
+        TokenDto tokenDto = this.authService.login(userLoginDto);
         return new ResponseEntity<TokenDto>(tokenDto, HttpStatus.OK);
     }
 
@@ -42,7 +42,7 @@ public class AuthController {
     @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
     public ResponseEntity<Boolean> resetPassword(@Valid @RequestBody UserForgotPasswordDto UserPasswordResetDto,
             HttpServletRequest request) throws NotFoundException, MessagingException, IOException, TemplateException {
-        authService.forgotPassword(UserPasswordResetDto, request);
+        this.authService.forgotPassword(UserPasswordResetDto, request);
         return new ResponseEntity<Boolean>(HttpStatus.OK);
     }
 
@@ -50,7 +50,7 @@ public class AuthController {
     @RequestMapping(value = "/passwordReset", method = RequestMethod.POST)
     public ResponseEntity<Boolean> passwordReset(@Valid @RequestBody PasswordDto passwordDto)
             throws BadRequestException, NotFoundException {
-        authService.passwordReset(passwordDto);
+        this.authService.passwordReset(passwordDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

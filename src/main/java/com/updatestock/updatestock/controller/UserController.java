@@ -31,14 +31,14 @@ public class UserController {
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_USUARIO')")
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public ResponseEntity<User> save(@Valid @RequestBody User user) throws BadRequestException {
-        return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.userService.save(user), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Atualizar Usuário")
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_USUARIO')")
     @RequestMapping(value = "/user", method = RequestMethod.PUT)
     public ResponseEntity<User> update(Principal principal, @Valid @RequestBody User user) throws NotFoundException, BadRequestException {
-        return new ResponseEntity<>(userService.update(user, principal), HttpStatus.OK);
+        return new ResponseEntity<>(this.userService.update(user, principal), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Deletar Usuário")
@@ -46,7 +46,7 @@ public class UserController {
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<User> delete(Principal principal, 
     								   @PathVariable(value = "id") Integer id) throws NotFoundException, BadRequestException {
-        userService.delete(id, principal);
+        this.userService.delete(id, principal);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -55,7 +55,7 @@ public class UserController {
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     public ResponseEntity<User> findById(Principal principal, 
     									 @PathVariable(value = "id") Integer id) throws NotFoundException, BadRequestException {
-        return new ResponseEntity<>(userService.findById(id, principal), HttpStatus.OK);
+        return new ResponseEntity<>(this.userService.findById(id, principal), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Buscar todos os usuários diferente do usuário logado")
@@ -64,7 +64,7 @@ public class UserController {
     public Page<User> findAll(Principal principal,
                                @RequestParam(value = "offset", defaultValue = "0") int page,
                                @RequestParam(value = "limit", defaultValue = "5") int size) throws NotFoundException {
-        return userService.findAllUsers(principal, page, size);
+        return this.userService.findAllUsers(principal, page, size);
     }
     
 }

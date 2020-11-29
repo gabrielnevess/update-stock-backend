@@ -29,7 +29,7 @@ public class StockController {
     @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_ESTOQUE')")
     @RequestMapping(value = "/stock/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Stock> delete(@PathVariable(value = "id") Integer id) throws NotFoundException, BadRequestException {
-        stockService.delete(id);
+        this.stockService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -37,14 +37,14 @@ public class StockController {
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_ESTOQUE')")
     @RequestMapping(value = "/stock/productId/{id}", method = RequestMethod.GET)
     public ResponseEntity<Stock> findByProductId(@PathVariable(value = "id") Integer id) throws NotFoundException {
-        return new ResponseEntity<>(stockService.findByProductId(id), HttpStatus.OK);
+        return new ResponseEntity<>(this.stockService.findByProductId(id), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Buscar Estoque pelo Id")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_ESTOQUE')")
     @RequestMapping(value = "/stock/{id}", method = RequestMethod.GET)
     public ResponseEntity<Stock> findById(@PathVariable(value = "id") Integer id) throws NotFoundException {
-        return new ResponseEntity<>(stockService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(this.stockService.findById(id), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Buscar todos os estoques")
@@ -52,7 +52,7 @@ public class StockController {
     @RequestMapping(value = "/stock", method = RequestMethod.GET)
     public Page<Stock> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
                                @RequestParam(value = "limit", defaultValue = "5") int size) {
-        return stockService.findAll(page, size);
+        return this.stockService.findAll(page, size);
     }
 
 }

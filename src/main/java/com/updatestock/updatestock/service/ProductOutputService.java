@@ -1,7 +1,9 @@
 package com.updatestock.updatestock.service;
 
 import java.security.Principal;
+import java.sql.Timestamp;
 
+import com.updatestock.updatestock.dto.IMonthlyQtdProductOutputDto;
 import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.Product;
@@ -73,5 +75,9 @@ public class ProductOutputService {
     public Page<ProductOutput> findAll(int page, int size) {
         return this.productOutputRepository.findAll(PageRequest.of(page, size));
     }
+
+    public IMonthlyQtdProductOutputDto monthlyQtdProductOutput() {
+		return this.productOutputRepository.monthlyQtdProductOutput(new Timestamp(System.currentTimeMillis()));
+	}
 
 }

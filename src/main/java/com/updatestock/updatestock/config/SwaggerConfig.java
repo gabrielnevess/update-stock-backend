@@ -73,7 +73,7 @@ public class SwaggerConfig {
                                       "API Rest do Sistema de Gerenciamento de Estoque",
                                       "1.0", 
                                        null,
-                                       new Contact("omontador", null, null), 
+                                       new Contact("UpdateStock", null, null), 
                                        "Apache License Version 2.0",
                                        "https://www.apache.org/licesen.html", 
                                        new ArrayList<>());

@@ -41,7 +41,7 @@ public class UserRoleService {
 
         } else {
             user = this.userRepository.findById(userId)
-                            .orElseThrow(() -> new NotFoundException(String.format("Usuário não encontrado com o id :: ", userId)));
+                        .orElseThrow(() -> new NotFoundException(String.format("Usuário não encontrado com o id :: ", userId)));
 
             try {
                 List<UserRolesDto> left = map.get("left");

@@ -32,21 +32,21 @@ public class MeasurementUnitController {
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_UNIDADE_MEDIDA')")
     @RequestMapping(value = "/measurementUnit", method = RequestMethod.POST)
     public ResponseEntity<MeasurementUnit> save(@Valid @RequestBody MeasurementUnit measurementUnit) {
-        return new ResponseEntity<>(measurementUnitService.save(measurementUnit), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.measurementUnitService.save(measurementUnit), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Atualizar Unidade de Medida")
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_UNIDADE_MEDIDA')")
     @RequestMapping(value = "/measurementUnit", method = RequestMethod.PUT)
     public ResponseEntity<MeasurementUnit> update(@Valid @RequestBody MeasurementUnit measurementUnit) throws NotFoundException {
-        return new ResponseEntity<>(measurementUnitService.update(measurementUnit), HttpStatus.OK);
+        return new ResponseEntity<>(this.measurementUnitService.update(measurementUnit), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Deletar Unidade de Medida")
     @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_UNIDADE_MEDIDA')")
     @RequestMapping(value = "/measurementUnit/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<MeasurementUnit> delete(@PathVariable(value = "id") Integer id) throws NotFoundException, BadRequestException {
-        measurementUnitService.delete(id);
+        this.measurementUnitService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     
@@ -54,7 +54,7 @@ public class MeasurementUnitController {
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_UNIDADE_MEDIDA')")
     @RequestMapping(value = "/measurementUnit/{id}", method = RequestMethod.GET)
     public ResponseEntity<MeasurementUnit> findById(@PathVariable(value = "id") Integer id) throws NotFoundException {
-        return new ResponseEntity<>(measurementUnitService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(this.measurementUnitService.findById(id), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Buscar todas as unidade de medidas")
@@ -62,7 +62,7 @@ public class MeasurementUnitController {
     @RequestMapping(value = "/measurementUnit", method = RequestMethod.GET)
     public Page<MeasurementUnit> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
                                          @RequestParam(value = "limit", defaultValue = "5") int size) {
-        return measurementUnitService.findAll(page, size);
+        return this.measurementUnitService.findAll(page, size);
     }
 
 }

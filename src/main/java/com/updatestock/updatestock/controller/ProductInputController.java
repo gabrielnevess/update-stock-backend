@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import javax.validation.Valid;
 
+import com.updatestock.updatestock.dto.IMonthlyQtdProductInputDto;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.ProductInput;
 import com.updatestock.updatestock.service.ProductInputService;
@@ -34,14 +35,14 @@ public class ProductInputController {
     @RequestMapping(value = "/productInput", method = RequestMethod.POST)
     public ResponseEntity<ProductInput> save(Principal principal,
                                              @Valid @RequestBody ProductInput productInput) throws NotFoundException {
-        return new ResponseEntity<>(productInputService.save(principal, productInput), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.productInputService.save(principal, productInput), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Buscar Entrada de Produto pelo Id")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_ENTRADA_PRODUTO')")
     @RequestMapping(value = "/productInput/{id}", method = RequestMethod.GET)
     public ResponseEntity<ProductInput> findById(@PathVariable(value = "id") Integer id) throws NotFoundException {
-        return new ResponseEntity<>(productInputService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(this.productInputService.findById(id), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Buscar todas as entradas de produtos")
@@ -49,7 +50,14 @@ public class ProductInputController {
     @RequestMapping(value = "/productInput", method = RequestMethod.GET)
     public Page<ProductInput> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
                                @RequestParam(value = "limit", defaultValue = "5") int size) {
-        return productInputService.findAll(page, size);
+        return this.productInputService.findAll(page, size);
+    }
+
+    @ApiOperation(value = "Buscar a quantidade de entrada de produtos feitas no mês atual")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_ENTRADA_PRODUTO')")
+    @RequestMapping(value = "/productInput/monthlyQtdProductInput", method = RequestMethod.GET)
+    public ResponseEntity<IMonthlyQtdProductInputDto> monthlyQtdProductInput() throws NotFoundException {
+        return new ResponseEntity<>(this.productInputService.monthlyQtdProductInput(), HttpStatus.OK);
     }
 
 }

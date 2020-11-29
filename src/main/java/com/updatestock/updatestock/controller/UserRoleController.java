@@ -41,7 +41,7 @@ public class UserRoleController {
     public ResponseEntity<Boolean> saveTransferList(Principal principal,
                                                     @PathVariable(value = "userId") Integer userId,
                                                     @RequestBody Map<String, List<UserRolesDto>> map) throws NotFoundException, BadRequestException {
-        return new ResponseEntity<>(userRoleService.saveTransferList(principal, userId, map), HttpStatus.OK);
+        return new ResponseEntity<>(this.userRoleService.saveTransferList(principal, userId, map), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Deletar Permissão do Usuário")
@@ -52,7 +52,7 @@ public class UserRoleController {
         UserRoleId userRoleId = new UserRoleId();
         userRoleId.setUserId(userId);
         userRoleId.setRoleId(roleId);
-        userRoleService.delete(userRoleId);
+        this.userRoleService.delete(userRoleId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -64,7 +64,7 @@ public class UserRoleController {
         UserRoleId userRoleId = new UserRoleId();
         userRoleId.setUserId(userId);
         userRoleId.setRoleId(roleId);
-        return new ResponseEntity<>(userRoleService.findById(userRoleId), HttpStatus.OK);
+        return new ResponseEntity<>(this.userRoleService.findById(userRoleId), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Buscar todas as permissões do usuário")
@@ -72,7 +72,7 @@ public class UserRoleController {
     @RequestMapping(value = "/userRole", method = RequestMethod.GET)
     public Page<UserRole> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
                                   @RequestParam(value = "limit", defaultValue = "5") int size) {
-        return userRoleService.findAll(page, size);
+        return this.userRoleService.findAll(page, size);
     }
 
     @ApiOperation(value = "Buscar todos os usuários")
@@ -91,7 +91,7 @@ public class UserRoleController {
     @RequestMapping(value = "/userRole/findTransferList/{userId}", method = RequestMethod.GET)
     public Map<String, List<UserRolesDto>> findTransferList(Principal principal, 
                                                             @PathVariable(value = "userId") Integer userId) throws NotFoundException, BadRequestException {
-        return userRoleService.findTransferList(principal, userId);
+        return this.userRoleService.findTransferList(principal, userId);
     }
     
 }

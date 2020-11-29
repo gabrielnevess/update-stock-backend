@@ -90,7 +90,7 @@
                                             <div
                                                 style="font-family:open Sans Helvetica, Arial, sans-serif;font-size:16px;line-height:1;text-align:left;color:#000000;">
                                                 Uma solicitação de recuperação de senha foi realizada para sua conta no
-                                                O Montador. Se você não foi o autor, apenas descarte esse e-mail.
+                                                UpdateStock. Se você não foi o autor, apenas descarte esse e-mail.
                                                 <br /><br />
                                                 Para continuar a recuperação de senha clique no botão abaixo para criar
                                                 uma nova senha. O link expira em 24h.</div>

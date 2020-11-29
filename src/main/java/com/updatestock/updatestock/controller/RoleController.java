@@ -32,21 +32,21 @@ public class RoleController {
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_PERMISSAO')")
     @RequestMapping(value = "/role", method = RequestMethod.POST)
     public ResponseEntity<Role> save(@Valid @RequestBody Role role) {
-        return new ResponseEntity<>(roleService.save(role), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.roleService.save(role), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Atualizar Permissão")
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_PERMISSAO')")
     @RequestMapping(value = "/role", method = RequestMethod.PUT)
     public ResponseEntity<Role> update(@Valid @RequestBody Role role) throws NotFoundException {
-        return new ResponseEntity<>(roleService.update(role), HttpStatus.OK);
+        return new ResponseEntity<>(this.roleService.update(role), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Deletar Permissão")
     @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_PERMISSAO')")
     @RequestMapping(value = "/role/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Role> delete(@PathVariable(value = "id") Integer id) throws NotFoundException, BadRequestException {
-        roleService.delete(id);
+        this.roleService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -54,7 +54,7 @@ public class RoleController {
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_PERMISSAO')")
     @RequestMapping(value = "/role/{id}", method = RequestMethod.GET)
     public ResponseEntity<Role> findById(@PathVariable(value = "id") Integer id) throws NotFoundException {
-        return new ResponseEntity<>(roleService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(this.roleService.findById(id), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Buscar todas as permissões")
@@ -62,7 +62,7 @@ public class RoleController {
     @RequestMapping(value = "/role", method = RequestMethod.GET)
     public Page<Role> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
                                @RequestParam(value = "limit", defaultValue = "5") int size) {
-        return roleService.findAll(page, size);
+        return this.roleService.findAll(page, size);
     }
 
 }

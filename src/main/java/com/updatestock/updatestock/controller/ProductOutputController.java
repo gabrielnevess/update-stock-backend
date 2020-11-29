@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import javax.validation.Valid;
 
+import com.updatestock.updatestock.dto.IMonthlyQtdProductOutputDto;
 import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.ProductOutput;
@@ -49,8 +50,15 @@ public class ProductOutputController {
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_SAIDA_PRODUTO')")
     @RequestMapping(value = "/productOutput", method = RequestMethod.GET)
     public Page<ProductOutput> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
-                               @RequestParam(value = "limit", defaultValue = "5") int size) {
+                                       @RequestParam(value = "limit", defaultValue = "5") int size) {
         return productOutputService.findAll(page, size);
+    }
+
+    @ApiOperation(value = "Buscar a quantidade de saídas de produtos feitas no mês atual")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_SAIDA_PRODUTO')")
+    @RequestMapping(value = "/productOutput/monthlyQtdProductOutput", method = RequestMethod.GET)
+    public ResponseEntity<IMonthlyQtdProductOutputDto> monthlyQtdProductOutput() throws NotFoundException {
+        return new ResponseEntity<>(this.productOutputService.monthlyQtdProductOutput(), HttpStatus.OK);
     }
 
 }

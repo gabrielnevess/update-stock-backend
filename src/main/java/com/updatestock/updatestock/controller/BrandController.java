@@ -32,21 +32,21 @@ public class BrandController {
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_MARCA')")
     @RequestMapping(value = "/brand", method = RequestMethod.POST)
     public ResponseEntity<Brand> save(@Valid @RequestBody Brand brand) {
-        return new ResponseEntity<>(brandService.save(brand), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.brandService.save(brand), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Atulizar Marca")
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_MARCA')")
     @RequestMapping(value = "/brand", method = RequestMethod.PUT)
     public ResponseEntity<Brand> update(@Valid @RequestBody Brand brand) throws NotFoundException {
-        return new ResponseEntity<>(brandService.update(brand), HttpStatus.OK);
+        return new ResponseEntity<>(this.brandService.update(brand), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Deletar Marca")
     @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_MARCA')")
     @RequestMapping(value = "/brand/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Brand> delete(@PathVariable(value = "id") Integer id) throws NotFoundException, BadRequestException {
-        brandService.delete(id);
+        this.brandService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -54,7 +54,7 @@ public class BrandController {
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_MARCA')")
     @RequestMapping(value = "/brand/{id}", method = RequestMethod.GET)
     public ResponseEntity<Brand> findById(@PathVariable(value = "id") Integer id) throws NotFoundException {
-        return new ResponseEntity<>(brandService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(this.brandService.findById(id), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Buscar todas as marcas")
@@ -62,7 +62,7 @@ public class BrandController {
     @RequestMapping(value = "/brand", method = RequestMethod.GET)
     public Page<Brand> findAll(@RequestParam(value = "offset", defaultValue = "0") int page,
                                @RequestParam(value = "limit", defaultValue = "5") int size) {
-        return brandService.findAll(page, size);
+        return this.brandService.findAll(page, size);
     }
 
 }
