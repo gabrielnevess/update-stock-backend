@@ -96,7 +96,7 @@ public class UserRoleService {
                        .orElseThrow(() -> new NotFoundException(String.format("Usuário Permissão não encontrada com o id :: %d e %d", ur.getUserId(), ur.getRoleId())));
     }
 
-    public Page<UserRole> findAll(Integer page, Integer size) {
+    public Page<UserRole> findAll(int page, int size) {
         return this.userRoleRepository.findAll(PageRequest.of(page, size));
     }
 

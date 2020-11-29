@@ -1,5 +1,7 @@
 package com.updatestock.updatestock.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import com.updatestock.updatestock.exception.BadRequestException;
@@ -60,9 +62,16 @@ public class MeasurementUnitController {
     @ApiOperation(value = "Buscar todas as unidade de medidas")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_UNIDADE_MEDIDA')")
     @RequestMapping(value = "/measurementUnit", method = RequestMethod.GET)
-    public Page<MeasurementUnit> findAll(@RequestParam(value = "offset", required = false) Integer page,
-                                         @RequestParam(value = "limit", required = false) Integer size) {
+    public Page<MeasurementUnit> findAll(@RequestParam(value = "offset", defaultValue="0") int page,
+                                         @RequestParam(value = "limit", defaultValue="5") int size) {
         return this.measurementUnitService.findAll(page, size);
+    }
+
+    @ApiOperation(value = "Buscar todas as unidade de medidas")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_UNIDADE_MEDIDA')")
+    @RequestMapping(value = "/measurementUnit/all", method = RequestMethod.GET)
+    public List<MeasurementUnit> findAll() {
+        return this.measurementUnitService.findAll();
     }
 
 }

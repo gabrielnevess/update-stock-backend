@@ -1,5 +1,7 @@
 package com.updatestock.updatestock.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import com.updatestock.updatestock.exception.BadRequestException;
@@ -60,9 +62,16 @@ public class BrandController {
     @ApiOperation(value = "Buscar todas as marcas")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_MARCA')")
     @RequestMapping(value = "/brand", method = RequestMethod.GET)
-    public Page<Brand> findAll(@RequestParam(value = "offset", required = false) Integer page,
-                               @RequestParam(value = "limit", required = false) Integer size) {
+    public Page<Brand> findAll(@RequestParam(value = "offset", defaultValue="0") int page,
+                               @RequestParam(value = "limit", defaultValue="5") int size) {
         return this.brandService.findAll(page, size);
+    }
+
+    @ApiOperation(value = "Buscar todas as marcas")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_MARCA')")
+    @RequestMapping(value = "/brand/all", method = RequestMethod.GET)
+    public List<Brand> findAll() {
+        return this.brandService.findAll();
     }
 
 }

@@ -62,7 +62,7 @@ public class ProductService {
                    .orElseThrow(() -> new NotFoundException(String.format("Produto não encontrada com o id :: %d", id)));
     }
 
-    public Page<Product> findAll(Integer page, Integer size) {
+    public Page<Product> findAll(int page, int size) {
         return this.productRepository.findAll(PageRequest.of(page, size));
     }
 

@@ -1,5 +1,7 @@
 package com.updatestock.updatestock.service;
 
+import java.util.List;
+
 import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.MeasurementUnit;
@@ -44,8 +46,12 @@ public class MeasurementUnitService {
                    .orElseThrow(() -> new NotFoundException(String.format("Unidade de medida não encontrada com o id :: %d", id)));
     }
 
-    public Page<MeasurementUnit> findAll(Integer page, Integer size) {
+    public Page<MeasurementUnit> findAll(int page, int size) {
         return this.measurementUnitRepository.findAll(PageRequest.of(page, size));
+    }
+
+    public List<MeasurementUnit> findAll() {
+        return this.measurementUnitRepository.findMeasurementUnitAll();
     }
 
 }

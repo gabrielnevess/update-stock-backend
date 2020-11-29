@@ -1,5 +1,7 @@
 package com.updatestock.updatestock.service;
 
+import java.util.List;
+
 import com.updatestock.updatestock.exception.BadRequestException;
 import com.updatestock.updatestock.exception.NotFoundException;
 import com.updatestock.updatestock.model.Brand;
@@ -42,8 +44,12 @@ public class BrandService {
                    .orElseThrow(() -> new NotFoundException(String.format("Marca não encontrada com o id :: %d", id)));
     }
 
-    public Page<Brand> findAll(Integer page, Integer size) {
+    public Page<Brand> findAll(int page, int size) {
         return this.brandRepository.findAll(PageRequest.of(page, size));
+    }
+
+    public List<Brand> findAll() {
+        return this.brandRepository.findBrandAll();
     }
 
 }

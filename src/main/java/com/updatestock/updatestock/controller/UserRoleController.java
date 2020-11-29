@@ -70,8 +70,8 @@ public class UserRoleController {
     @ApiOperation(value = "Buscar todas as permissões do usuário")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_USUARIO_PERMISSAO')")
     @RequestMapping(value = "/userRole", method = RequestMethod.GET)
-    public Page<UserRole> findAll(@RequestParam(value = "offset", required = false) Integer page,
-                                  @RequestParam(value = "limit", required = false) Integer size) {
+    public Page<UserRole> findAll(@RequestParam(value = "offset", defaultValue="0") int page,
+                                  @RequestParam(value = "limit", defaultValue="5") int size) {
         return this.userRoleService.findAll(page, size);
     }
 
@@ -80,8 +80,8 @@ public class UserRoleController {
                           "hasAuthority('ROLE_PESQUISAR_USUARIO')")
     @RequestMapping(value = "/userRole/users", method = RequestMethod.GET)
     public Page<User> findAllUsers(Principal principal,
-                                   @RequestParam(value = "offset", required = false) Integer page,
-                                   @RequestParam(value = "limit", required = false) Integer size) throws NotFoundException {
+                                   @RequestParam(value = "offset", defaultValue="0") int page,
+                                   @RequestParam(value = "limit", defaultValue="5") int size) throws NotFoundException {
         return userService.findAllUsers(principal, page, size);
     }
 

@@ -58,7 +58,7 @@ public class StockService {
                    .orElseThrow(() -> new NotFoundException(String.format("Estoque não encontrado com o id do produto :: %d", productId)));
     }
 
-    public Page<Stock> findAll(Integer page, Integer size) {
+    public Page<Stock> findAll(int page, int size) {
         return this.stockRepository.findAll(PageRequest.of(page, size));
     }
 

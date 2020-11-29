@@ -50,8 +50,8 @@ public class StockController {
     @ApiOperation(value = "Buscar todos os estoques")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_ESTOQUE')")
     @RequestMapping(value = "/stock", method = RequestMethod.GET)
-    public Page<Stock> findAll(@RequestParam(value = "offset", required = false) Integer page,
-                               @RequestParam(value = "limit", required = false) Integer size) {
+    public Page<Stock> findAll(@RequestParam(value = "offset", defaultValue="0") int page,
+                               @RequestParam(value = "limit", defaultValue="5") int size) {
         return this.stockService.findAll(page, size);
     }
 
