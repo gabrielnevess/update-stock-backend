@@ -9,7 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface ProductInputRepository extends PagingAndSortingRepository<ProductInput, Integer> {
 
     @Query("SELECT \n" +
-                "SUM(tpi.id) as qtdProductInput, \n" +
+                "COUNT(*) as qtdProductInput, \n" +
                 "TO_CHAR(DATE_TRUNC('month', tpi.updatedAt), 'MM/YYYY') as date \n" +
             "FROM ProductInput as tpi \n" +
             "WHERE DATE_TRUNC('month', tpi.updatedAt) BETWEEN \n" +
