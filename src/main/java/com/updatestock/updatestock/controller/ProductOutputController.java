@@ -49,8 +49,8 @@ public class ProductOutputController {
     @ApiOperation(value = "Buscar todas as saídas de produtos")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_SAIDA_PRODUTO')")
     @RequestMapping(value = "/productOutput", method = RequestMethod.GET)
-    public Page<ProductOutput> findAll(@RequestParam(value = "offset", required = false) int page,
-                                       @RequestParam(value = "limit", required = false) int size) {
+    public Page<ProductOutput> findAll(@RequestParam(value = "offset", required = false) Integer page,
+                                       @RequestParam(value = "limit", required = false) Integer size) {
         return productOutputService.findAll(page, size);
     }
 

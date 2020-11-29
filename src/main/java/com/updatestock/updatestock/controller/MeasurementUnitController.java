@@ -60,8 +60,8 @@ public class MeasurementUnitController {
     @ApiOperation(value = "Buscar todas as unidade de medidas")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_UNIDADE_MEDIDA')")
     @RequestMapping(value = "/measurementUnit", method = RequestMethod.GET)
-    public Page<MeasurementUnit> findAll(@RequestParam(value = "offset", required = false) int page,
-                                         @RequestParam(value = "limit", required = false) int size) {
+    public Page<MeasurementUnit> findAll(@RequestParam(value = "offset", required = false) Integer page,
+                                         @RequestParam(value = "limit", required = false) Integer size) {
         return this.measurementUnitService.findAll(page, size);
     }
 
